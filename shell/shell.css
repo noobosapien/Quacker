@@ -1,0 +1,73 @@
+body { 
+    /* position: absolute; */
+}
+#canvas {
+    position: fixed;
+}
+
+#game {
+    z-index: 0;
+    opacity: 0;
+}
+
+#game-ui {
+    top: 0; 
+    left: 0;  
+    position: relative; 
+    z-index: 10;
+}
+
+/* delete later */
+
+#left{
+    top: 100px; 
+    left: 100px;  
+    position: absolute; 
+}
+
+#right{
+    top: 100px; 
+    left: 200px;  
+    position: absolute; 
+}
+
+#direction{
+    top: 100px; 
+    left: 200px;  
+    position: absolute; 
+    font-size: 4rem;
+    color: red;
+}
+
+.draggable {
+    width: 100px;
+    height: 100px;
+    background: rgba(73, 189, 221, 0.4);
+    clip-path: circle(50% at 50% 50%);
+  }
+
+/*  */
+#ui {
+    position: fixed;
+
+    width: 100vw;
+    height: 100vh;
+    z-index: 1;
+    background: rgb(57,129,94);
+    background: radial-gradient(circle, rgba(57,129,94,1) 0%, rgba(147,0,85,1) 100%);
+
+}
+
+#ui button {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    z-index: 1;
+}
+
+#progress {
+    /* position: fixed; */
+    z-index: 1;
+    top: 60%;
+    left: 0%;
+}
