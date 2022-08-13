@@ -35,6 +35,9 @@ public:
     void addTilemap(class TilemapComponent *tilemap);
     void removeTilemap(class TilemapComponent *tilemap);
 
+    class Player *getPlayer();
+    class Enemy *getEnemy();
+
     void addEnvironment(class Object *object);
     void removeEnvironment(class Object *object);
     std::vector<class Object *> &getEnvironment();
@@ -49,6 +52,8 @@ public:
 
     void setValue(std::string key, std::string value);
     std::string getValue(Globals key);
+
+    void callUIRPC(std::string command);
 
 private:
     void processInput();
@@ -96,6 +101,8 @@ private:
     std::vector<class Object *> mEnvironment;
 
     std::map<Globals, std::string> mDataStore;
+
+    class Utils *mUtils;
 };
 
 #endif

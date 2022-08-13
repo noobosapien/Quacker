@@ -1,63 +1,43 @@
-let target = null;
+const target = document.getElementById('direction');
 
-function filter(e) {
-  // console.log(document.callRPC);
-  document.callRPC([0.2, 1, 4, 2], 4);
+target.ontouchstart = starthandler;
+target.ontouchmove = movehandler;
+target.ontouchend = endhandler;
 
-  target = e.target;
-
-  if (!target.classList.contains('draggable')) {
-    return;
-  }
-
+function starthandler(ev) {
+  ev.preventDefault();
   target.moving = true;
-
-  if (e.clientX) {
-    target.oldX = e.clientX;
-    // target.oldY = e.clientY;
-  } else {
-    target.oldX = e.touches[0].clientX;
-    // target.oldY = e.touches[0].clientY;
-  }
-
-  target.oldLeft =
-    window.getComputedStyle(target).getPropertyValue('left').split('px')[0] * 1;
-  //   target.oldTop =
-  //     window.getComputedStyle(target).getPropertyValue('top').split('px')[0] * 1;
-
-  document.onmousemove = dr;
-  document.ontouchmove = dr;
-
-  function dr(event) {
-    event.preventDefault();
-
-    if (!target.moving) {
-      return;
-    }
-
-    if (event.clientX) {
-      target.distX = event.clientX - target.oldX;
-      //   target.distY = event.clientY - target.oldY;
-    } else {
-      target.distX = event.touches[0].clientX - target.oldX;
-      //   target.distY = event.touches[0].clientY - target.oldY;
-    }
-
-    target.style.left = target.oldLeft + target.distX + 'px';
-    // target.style.top = target.oldTop + target.distY + 'px';
-  }
-
-  // target.onmouseup = endDrag;
-  // target.ontouchend = endDrag;
+  target.oldX = target.style.left.split('px')[0] * 1 + 50;
 }
 
-function endDrag() {
-  if (target) {
+function movehandler(ev) {
+  ev.preventDefault();
+
+  if (!document.callRPC) return;
+
+  var currentX = target.style.left.split('px')[0] * 1 + 50;
+
+  if (currentX > target.oldX) {
+    document.callRPC('PLAYER_MOVE_RIGHT');
+  }
+
+  if (target.oldX > currentX) {
+    document.callRPC('PLAYER_MOVE_LEFT');
+  }
+
+  if (currentX - target.oldX > 50 || currentX - target.oldX < -50) {
+    target.oldX = currentX;
+  }
+
+  target.style.left = ev.targetTouches[0].clientX - 50 + 'px';
+  target.style.top = ev.targetTouches[0].clientY - 50 + 'px';
+}
+
+function endhandler(ev) {
+  ev.preventDefault();
+
+  if (document.callRPC && target.moving) {
+    document.callRPC('PLAYER_MOVE_STOP');
     target.moving = false;
   }
 }
-
-document.onmousedown = filter;
-document.ontouchstart = filter;
-document.onmouseup = endDrag;
-document.ontouchend = endDrag;

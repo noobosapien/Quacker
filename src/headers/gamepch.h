@@ -33,3 +33,4 @@ class Component;
 #include "camerafollowcomponent.h"
 #include "aicomponent.h"
 #include "network/networkcomponent.h"
+#include "utils/gameUtils.h"

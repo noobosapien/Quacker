@@ -41,45 +41,16 @@ extern "C"
     game->setValue(std::string(key), std::string(value));
 }
 
-// template <typename T, typename... Types>
-// void printC(int n, ...)
-// {
-//     std::cout << "Here" << std::endl;
-// }
-
-// EMSCRIPTEN_BINDINGS(rpc)
-// {
-//     emscripten::function("printC", &printC);
-// }
-
 extern "C"
 #ifdef __EMSCRIPTEN__
     EMSCRIPTEN_KEEPALIVE
 #endif
 
     void
-    call_rpc(float vals[], int size)
+    call_ui_rpc(char *command)
 {
-    float res = 0;
-    for (int i = 0; i < size; i++)
-        std::cout << res << std::endl;
+    game->callUIRPC(std::string(command));
 }
-
-// float call_rpc(int n, ...)
-// {
-//     va_list ptr;
-//     va_start(ptr, n);
-
-//     for (int i = 0; i < n; i++)
-//     {
-//         int tmp = va_arg(ptr, int);
-//         printf("here var: %c\n", tmp);
-//     }
-
-//     va_end(ptr);
-
-//     return 1.f;
-// }
 
 int main()
 {

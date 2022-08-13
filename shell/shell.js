@@ -17,15 +17,7 @@ function ModuleLoaded() {
     'bool',
   ]);
   setData = Module.cwrap('set_game_data', 'undefined', ['string', 'string']);
-  callRPC = Module.cwrap('call_rpc', 'undefined', ['int', 'int']);
-
-  // const res = new Float32Array(4);
-  const res = new Uint8Array([1, 2, 3, 4]);
-  var heapSpace = Module._malloc(res.BYTES_PER_ELEMENT * res.length);
-  Module.HEAPU8.set(res, heapSpace);
-
-  Module._call_rpc(heapSpace, 4);
-  // Module._free(heapSpace);
+  callRPC = Module.cwrap('call_ui_rpc', 'undefined', ['string']);
 
   //STRICTLY DEBUG!!!//
   if (document && setData) {
@@ -149,7 +141,7 @@ window.onload = async () => {
 
     // ws = new WebSocket('ws://172.20.10.4:3001/');
 
-    ws = new WebSocket('ws://192.168.1.100:3001/');
+    ws = new WebSocket('ws://192.168.8.101:3001/');
     // ws = new WebSocket('ws://3.104.94.74:3001/');
 
     ws.onopen = async function (e) {

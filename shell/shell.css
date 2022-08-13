@@ -32,19 +32,49 @@ body {
 }
 
 #direction{
-    top: 100px; 
-    left: 200px;  
+    top: 60vh; 
+    left: 10vw;  
     position: absolute; 
     font-size: 4rem;
     color: red;
-}
-
-.draggable {
     width: 100px;
     height: 100px;
     background: rgba(73, 189, 221, 0.4);
     clip-path: circle(50% at 50% 50%);
-  }
+}
+
+#progress_bot {
+    position: absolute; 
+    height: 20px;
+    width: 100px;
+    background-color: rgba(152, 152, 152, 0.4);
+    top: 10vh;
+    left: 5vw;
+
+}
+
+#progress_top {
+    height: 100%;
+    width: 40px;
+    background-color: aqua;
+}
+
+#e_progress_bot {
+    position: absolute; 
+    height: 20px;
+    width: 100px;
+    background-color: rgba(152, 152, 152, 0.4);
+    top: 10vh;
+    right: 5vw;
+
+}
+
+#e_progress_top {
+    height: 100%;
+    width: 40px;
+    background-color: rgb(252, 58, 74);
+}
+
 
 /*  */
 #ui {

@@ -17,57 +17,57 @@ AIComponent::~AIComponent()
 void AIComponent::update(float delta)
 {
 
-    createPacket();
+    // createPacket();
 
-    if (mState == GO_DOWN && mMoveComp->getColDirection().y > 0.f)
-    {
-        mLeft ? setState(GO_LEFT) : setState(GO_RIGHT);
-    }
+    // if (mState == GO_DOWN && mMoveComp->getColDirection().y > 0.f)
+    // {
+    //     mLeft ? setState(GO_LEFT) : setState(GO_RIGHT);
+    // }
 
-    if ((mState == GO_LEFT || mState == GO_RIGHT) && (mMoveComp->getColDirection().x < 0.f || mMoveComp->getColDirection().x > 0.f))
-    {
-        setState(GO_UP);
-    }
+    // if ((mState == GO_LEFT || mState == GO_RIGHT) && (mMoveComp->getColDirection().x < 0.f || mMoveComp->getColDirection().x > 0.f))
+    // {
+    //     setState(GO_UP);
+    // }
 }
 
 void AIComponent::setState(STATE state)
 {
-    switch (state)
-    {
-    case GO_DOWN:
-        mMoveComp->setDirection(glm::vec2(0.f, -1.f));
-        mMoveComp->setSpeed(0.4f);
-        mRotComp->setSpeed(100);
-        mState = GO_DOWN;
-        break;
+    // switch (state)
+    // {
+    // case GO_DOWN:
+    //     mMoveComp->setDirection(glm::vec2(0.f, -1.f));
+    //     mMoveComp->setSpeed(0.4f);
+    //     mRotComp->setSpeed(100);
+    //     mState = GO_DOWN;
+    //     break;
 
-    case GO_UP:
-        mMoveComp->setDirection(glm::vec2(0.f, 1.f));
-        mMoveComp->setSpeed(0.1f);
-        mRotComp->setSpeed(500);
-        mState = GO_UP;
-        break;
+    // case GO_UP:
+    //     mMoveComp->setDirection(glm::vec2(0.f, 1.f));
+    //     mMoveComp->setSpeed(0.1f);
+    //     mRotComp->setSpeed(500);
+    //     mState = GO_UP;
+    //     break;
 
-    case GO_LEFT:
-        mMoveComp->setDirection(glm::vec2(-1.f, 0.f));
-        mMoveComp->setSpeed(0.2f);
-        mRotComp->setSpeed(300);
-        mState = GO_LEFT;
-        break;
+    // case GO_LEFT:
+    //     mMoveComp->setDirection(glm::vec2(-1.f, 0.f));
+    //     mMoveComp->setSpeed(0.2f);
+    //     mRotComp->setSpeed(300);
+    //     mState = GO_LEFT;
+    //     break;
 
-    case GO_RIGHT:
-        mMoveComp->setDirection(glm::vec2(1.f, 0.f));
-        mMoveComp->setSpeed(0.2f);
-        mRotComp->setSpeed(300);
-        mState = GO_RIGHT;
-        break;
+    // case GO_RIGHT:
+    //     mMoveComp->setDirection(glm::vec2(1.f, 0.f));
+    //     mMoveComp->setSpeed(0.2f);
+    //     mRotComp->setSpeed(300);
+    //     mState = GO_RIGHT;
+    //     break;
 
-    default:
-        mMoveComp->setDirection(glm::vec2(0.f, 0.f));
-        mRotComp->setSpeed(0);
-        mState = GO_NOWHERE;
-        break;
-    }
+    // default:
+    //     mMoveComp->setDirection(glm::vec2(0.f, 0.f));
+    //     mRotComp->setSpeed(0);
+    //     mState = GO_NOWHERE;
+    //     break;
+    // }
 }
 
 void AIComponent::createPacket()

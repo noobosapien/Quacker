@@ -181,7 +181,7 @@ void Game::loadData()
     bg->setBGTextures(bgTexs);
     bg->setScrollSpeed(-.0f);
 
-    mBackgrounds.push_back(bg);
+    // mBackgrounds.push_back(bg);
 
     // bg = new BGComponent(temp, 56);
     // bg->setScreenSize(glm::vec2(1.f, 1.5f));
@@ -212,7 +212,8 @@ void Game::loadData()
 
     mPlayer = new Player(this, mLeft);
     mEnemy = new Enemy(this, !mLeft);
-
+    mUtils = new Utils(this);
+    EM_ASM({UI_RPC("PLAYER_LOST", 'we', 'fe', 20.4)});
     // mLevel = new GameLevel(this);
     // mLevel->load("src/assets/levels/1.txt", 800, 800);
 }
@@ -245,6 +246,11 @@ void Game::unloadData()
 
     if (mLevel)
         delete mLevel; // deleting environment here in the destructor
+
+    mDataStore.clear();
+
+    if (mUtils)
+        delete mUtils;
 }
 
 void Game::addActor(Actor *actor)
@@ -365,6 +371,16 @@ void Game::removeEnvironment(class Object *object)
     }
 }
 
+Player *Game::getPlayer()
+{
+    return mPlayer;
+}
+
+Enemy *Game::getEnemy()
+{
+    return mEnemy;
+}
+
 std::vector<class Object *> &Game::getEnvironment()
 {
     return mEnvironment;
@@ -380,6 +396,11 @@ void Game::setValue(std::string key, std::string value)
 std::string Game::getValue(Globals key)
 {
     return mDataStore[key];
+}
+
+void Game::callUIRPC(std::string command)
+{
+    mUtils->callUIRPC(command);
 }
 
 //////////////////////////////////////////////////////////////////////
