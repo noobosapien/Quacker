@@ -14,15 +14,17 @@ void Utils::callUIRPC(std::string command)
 {
     UICalls method = mUICommands[command];
 
+    // change everything to globals
+
     switch (method)
     {
-    case UICalls::PLAYER_MOVE_LEFT:
-        mGame->getPlayer()->mMovement->move(true, 0.4f);
+    case UICalls::PLAYER_MOVE_LEFT: // this is called when the command is not found
+        mGame->getPlayer()->mMovement->move(true, 0.1f);
 
         break;
 
     case UICalls::PLAYER_MOVE_RIGHT:
-        mGame->getPlayer()->mMovement->move(false, 0.4f);
+        mGame->getPlayer()->mMovement->move(false, 0.1f);
 
         break;
 
@@ -32,14 +34,17 @@ void Utils::callUIRPC(std::string command)
         break;
 
     case UICalls::PLAYER_ROTATE_LEFT:
+        mGame->getPlayer()->mMovement->rotate(true, 50);
 
         break;
 
     case UICalls::PLAYER_ROTATE_RIGHT:
+        mGame->getPlayer()->mMovement->rotate(false, 50);
 
         break;
 
     case UICalls::PLAYER_ROTATE_STOP:
+        mGame->getPlayer()->mMovement->stopRotate();
 
         break;
 

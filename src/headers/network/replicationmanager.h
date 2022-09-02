@@ -9,9 +9,7 @@ class ReplicationManager
 public:
     enum ReplicationAction
     {
-        RA_CREATE,
-        RA_UPDATE,
-        RA_DESTROY
+        RA_ENEMY_POS
     };
 
     ReplicationManager() = default;
@@ -22,9 +20,7 @@ public:
     void read(InputStream &inStream);
 
 private:
-    void readAndCreate(InputStream &inputStream);
-    void readAndUpdate(InputStream &inputStream);
-    void readAndDestroy(InputStream &inputStream);
+    void updateEnemyPos(InputStream &inputStream);
 
     class Game *mGame;
 };

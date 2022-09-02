@@ -1,5 +1,4 @@
 const WebSocketServer = require('ws');
-const { Readable } = require('stream');
 
 const port = 3002;
 const wss = new WebSocketServer.Server({ port });
@@ -8,13 +7,15 @@ var players = [];
 
 setInterval(() => {
   for (var i = 0; i < players.length; i++) {
-    if (i == 0) {
-      // console.log(players[i].height);
+    if (i == 0 && players.length === 2) {
+      sendStats(players[0], players[1]);
     } else if (i == 1) {
-      // console.log(players[i].height);
+      sendStats(players[1], players[0]);
     }
   }
-}, 1000);
+
+  // console.log(players);
+}, 33);
 
 function changeEndianness(val) {
   return (
@@ -66,6 +67,9 @@ wss.on('connection', (ws, req) => {
         player.ws = ws;
         players.push(player);
       }
+
+      //send thee welcomed package to the player
+      sendWelcome(player);
     }
 
     //STATE
@@ -85,7 +89,7 @@ wss.on('connection', (ws, req) => {
         buf = Buffer.from(comp.buffer, 12 + len, len2);
         out = Buffer.from(buf, 'hex');
 
-        // //out will be the type of stat : 1 for height
+        // //out will be the type of stat : 1 for xPos
         let type = Number(out.toString('utf-8'));
         // console.log(type);
 
@@ -99,13 +103,15 @@ wss.on('connection', (ws, req) => {
 
             out = Buffer.from(buf, 'hex');
 
-            let height = Number(out.toString('utf-8'));
+            let xPos = Number(out.toString('utf-8'));
             players.forEach((pl, i) => {
               if (pl.id === pID) {
-                players[i].height = height;
+                // console.log(xPos);
+                players[i].xPos = xPos;
+                players[i].pID = pID;
               }
             });
-            break; //height
+            break; //xPos
           default:
             break;
         }
@@ -122,4 +128,15 @@ wss.on('connection', (ws, req) => {
     console.log('Some Error occurred');
   };
 });
+
+function sendWelcome(player) {
+  var WLCM = new Uint32Array([1464615757, player.id]);
+  player.ws.send(WLCM);
+}
+
+function sendStats(player, enemy) {
+  var STAT = new Int32Array([1398030676, 0, enemy.xPos]);
+  player.ws.send(STAT);
+}
+
 console.log('Game ws server running on port ' + port);

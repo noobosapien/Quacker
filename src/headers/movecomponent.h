@@ -14,10 +14,15 @@ public:
     void move(bool left, float speed);
     void stop();
 
+    void rotate(bool left, float speed);
+    void stopRotate();
+
 private:
     class CollisionComponent *mCollider;
     glm::vec2 mDirection;
     float mSpeed;
+    glm::vec2 mRotDirection;
+    float mRotSpeed;
 };
 
 #endif

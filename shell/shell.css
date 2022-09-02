@@ -1,6 +1,4 @@
-body { 
-    /* position: absolute; */
-}
+
 #canvas {
     position: fixed;
 }
@@ -84,7 +82,7 @@ body {
     height: 100vh;
     z-index: 1;
     background: rgb(57,129,94);
-    background: radial-gradient(circle, rgba(57,129,94,1) 0%, rgba(147,0,85,1) 100%);
+    background: radial-gradient(circle, rgb(50, 50, 50) 0%, rgb(18, 18, 18)00%);
 
 }
 
@@ -100,4 +98,38 @@ body {
     z-index: 1;
     top: 60%;
     left: 0%;
+}
+
+#turner{
+    top: 80vh;
+    right: 17vw;
+    position: absolute;
+    font-size: 4rem;
+    color: red;
+    width: 60px;
+    height: 60px;
+    background: rgba(243, 9, 126, 0.684);
+    clip-path: circle(50% at 50% 50%);
+}
+
+#turn_left{
+    top: 80vh;
+    right: 40vw;
+    position: absolute;
+    font-size: 4rem;
+    color: red;
+    width: 10px;
+    height: 80px;
+    background: rgba(6, 244, 240, 0.684);
+}
+
+#turn_right {
+    top: 80vh;
+    right: 10vw;
+    position: absolute;
+    font-size: 4rem;
+    color: red;
+    width: 10px;
+    height: 80px;
+    background: rgba(255, 0, 0, 0.684);
 }

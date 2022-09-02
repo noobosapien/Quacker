@@ -1,6 +1,6 @@
 #include "../headers/gamepch.h"
 
-WebsockClient::WebsockClient(Game *game) : mGame(game), mPID(0)
+WebsockClient::WebsockClient(Game *game) : mGame(game), mPID(0), mLastPacketTime(0.)
 {
     // mReplicationManager = nullptr;
     mReplicationManager = new ReplicationManager(game);
@@ -19,9 +19,7 @@ WebsockClient *WebsockClient::sInstance = nullptr;
 bool WebsockClient::staticInit(Game *game, int pid, char *name)
 {
     WebsockClient::sInstance = new WebsockClient(game);
-    // return WebsockClient::sInstance->init("ws://172.20.10.4:3002", pid, std::string(name));
     return WebsockClient::sInstance->init("ws://192.168.8.101:3002", pid, std::string(name));
-    // return WebsockClient::sInstance->init("ws://192.168.178.53:3002", pid, std::string(name));
     // return WebsockClient::sInstance->init("ws://3.104.94.74:3002", pid, std::string(name));
 }
 
@@ -34,8 +32,10 @@ void WebsockClient::sendOutgoing()
     case ST_SAYINGHELLO:
         if (!helloPacketSent && connected)
             sendHelloPacket();
+        break;
     case ST_WELCOMED:
         sendInputPacket();
+        break;
     default:
         break;
     }
@@ -45,7 +45,7 @@ void WebsockClient::processPacket(InputStream &inputStream)
 {
     uint32_t packetType(0);
     inputStream.read(packetType);
-    printf("WebsockClient::processpacket packetType: %u\n", packetType);
+    printf("WebsockClient::processpacket packetType: %u, %u\n", packetType, kWelcomeCC);
 
     switch (packetType)
     {
@@ -136,17 +136,19 @@ void WebsockClient::setOutgoing(OutputStream *out)
 
 void WebsockClient::sendInputPacket()
 {
-    for (auto out : mOutPackets)
+    if ((mGame->getCurrentTime() - mLastPacketTime) > 60)
     {
-        sendMessage(*out);
+        for (auto out : mOutPackets)
+        {
+            sendMessage(*out);
+        }
     }
-
     mOutPackets.clear();
 }
 
 EM_BOOL WebsockClient::onOpen(int eventType, const EmscriptenWebSocketOpenEvent *websockEvent, void *userData)
 {
-    puts("Connected to server\n");
+    puts("Connected to the game server\n");
     WebsockClient::sInstance->connected = true;
     return EM_TRUE;
 }

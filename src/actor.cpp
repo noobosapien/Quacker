@@ -6,7 +6,8 @@ Actor::Actor(Game *game) : mState(EActive),
                            mScale(1.f),
                            mRotation(0.0f),
                            mGame(game),
-                           mRecomputeWorldTransform(true)
+                           mRecomputeWorldTransform(true),
+                           mInterpolationTime(0.f)
 {
     mGame->addActor(this);
 }
@@ -42,7 +43,24 @@ void Actor::updateComponents(float delta)
     }
 }
 
-void Actor::updateActor(float delta) {}
+void Actor::updateActor(float delta)
+{
+}
+
+void Actor::interpolatePosition(glm::vec2 newPos, float delta)
+{
+    if (mInterpolationTime <= 1.f)
+    {
+        mInterpolationTime += 0.05 * delta;
+
+        setPosition(mPosition + (newPos - mPosition) * mInterpolationTime);
+    }
+
+    if (mPosition == newPos)
+    {
+        mInterpolationTime = 0.f;
+    }
+}
 
 void Actor::processInput(SDL_Event &event)
 {

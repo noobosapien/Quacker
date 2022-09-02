@@ -31,6 +31,6 @@ class Component;
 #include "rectangleshapecomponent.h"
 #include "movecomponent.h"
 #include "camerafollowcomponent.h"
-#include "aicomponent.h"
+
 #include "network/networkcomponent.h"
 #include "utils/gameUtils.h"

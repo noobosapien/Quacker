@@ -5,6 +5,9 @@ MoveComponent::MoveComponent(Actor *owner, CollisionComponent *collider, int upd
 {
     mDirection = glm::vec2(0.f);
     mSpeed = 0.f;
+
+    mRotDirection = glm::vec2(0.f);
+    mRotSpeed = 0.f;
 }
 
 MoveComponent::~MoveComponent()
@@ -32,6 +35,26 @@ void MoveComponent::stop()
     mDirection = glm::vec2(0.f);
 }
 
+void MoveComponent::rotate(bool left, float speed)
+{
+    mRotSpeed = speed;
+
+    if (left)
+    {
+        mRotDirection = glm::vec2(-1, 0);
+    }
+    else
+    {
+        mRotDirection = glm::vec2(1, 0);
+    }
+}
+
+void MoveComponent::stopRotate()
+{
+    mRotSpeed = 0.f;
+    mRotDirection = glm::vec2(0.f);
+}
+
 void MoveComponent::update(float delta)
 {
     // check for collision in the environment
@@ -49,6 +72,25 @@ void MoveComponent::update(float delta)
 
     glm::vec2 pos = mOwner->getPosition();
 
-    pos += mDirection * mSpeed * delta;
-    mOwner->setPosition(pos);
+    if (pos.x < 0.5 && mDirection.x > 0)
+    {
+        pos += mDirection * mSpeed * delta;
+        mOwner->setPosition(pos);
+    }
+    else if (pos.x > -0.5 && mDirection.x < 0)
+    {
+        pos += mDirection * mSpeed * delta;
+        mOwner->setPosition(pos);
+    }
+
+    float rot = mOwner->getRotation();
+
+    if (mRotDirection.x < 0 && rot < 270)
+    {
+        mOwner->setRotation(rot + (mRotSpeed * delta));
+    }
+    else if (mRotDirection.x > 0 && rot > 90)
+    {
+        mOwner->setRotation(rot - (mRotSpeed * delta));
+    }
 }

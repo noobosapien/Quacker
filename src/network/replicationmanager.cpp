@@ -18,14 +18,8 @@ void ReplicationManager::read(InputStream &inStream)
 
         switch (action)
         {
-        case RA_CREATE:
-            readAndCreate(inStream);
-            break;
-        case RA_UPDATE:
-            readAndUpdate(inStream);
-            break;
-        case RA_DESTROY:
-            readAndDestroy(inStream);
+        case RA_ENEMY_POS:
+            updateEnemyPos(inStream);
             break;
         default:
             break;
@@ -33,47 +27,16 @@ void ReplicationManager::read(InputStream &inStream)
     }
 }
 
-void ReplicationManager::readAndCreate(InputStream &inStream)
+void ReplicationManager::updateEnemyPos(InputStream &inStream)
 {
-    uint32_t nameCC;
+    int32_t enemyPos(0);
 
     while (inStream.getRemainingBitCount() > 8)
     {
-        inStream.read(nameCC);
+        inStream.read(enemyPos);
 
-        if (nameCC == 'STOP')
-            break;
+        std::cout << "Enemy position: " << enemyPos << std::endl;
 
-        switch (nameCC)
-        {
-
-        default:
-            break;
-        }
-    }
-}
-
-void ReplicationManager::readAndUpdate(InputStream &inStream)
-{
-}
-
-void ReplicationManager::readAndDestroy(InputStream &inStream)
-{
-
-    uint32_t nameCC;
-
-    while (inStream.getRemainingBitCount() > 8)
-    {
-        inStream.read(nameCC);
-
-        if (nameCC == 'STOP')
-            break;
-
-        switch (nameCC)
-        {
-
-        default:
-            break;
-        }
+        mGame->getEnemy()->setInterpolationPosition(glm::vec2(float(enemyPos) / -1000000, mGame->getEnemy()->getPosition().y));
     }
 }

@@ -75,6 +75,7 @@ private:
     uint32_t mPlayerID;
     std::string mName;
     int mPID;
+    double mLastPacketTime;
 
     std::vector<OutputStream *> mOutPackets;
 };

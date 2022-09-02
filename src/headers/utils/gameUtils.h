@@ -14,7 +14,7 @@ private:
 
     enum class UICalls
     {
-        PLAYER_MOVE_LEFT,
+        PLAYER_MOVE_LEFT = 1,
         PLAYER_MOVE_RIGHT,
         PLAYER_MOVE_STOP,
 

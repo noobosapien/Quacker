@@ -1,6 +1,6 @@
 #include "headers/gamepch.h"
 
-Enemy::Enemy(Game *game, bool left) : Actor(game), mLeft(left)
+Enemy::Enemy(Game *game, bool left) : Actor(game), mLeft(left), mInterpolateTo(glm::vec2(0.f))
 {
     setScale(0.1);
     if (mLeft)
@@ -46,4 +46,11 @@ Enemy::~Enemy()
 
 void Enemy::updateActor(float delta)
 {
+    Actor::updateActor(delta);
+    interpolateTo(delta);
+}
+
+void Enemy::interpolateTo(float delta)
+{
+    this->interpolatePosition(mInterpolateTo, delta);
 }

@@ -12,7 +12,8 @@ public:
     void update(float delta) override;
 
 private:
-    void setPacket(OutputStream *out);
+    void setPacket();
+    double mLastPacketTime;
 };
 
 #endif
