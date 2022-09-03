@@ -45,7 +45,9 @@ void WebsockClient::processPacket(InputStream &inputStream)
 {
     uint32_t packetType(0);
     inputStream.read(packetType);
-    printf("WebsockClient::processpacket packetType: %u, %u\n", packetType, kWelcomeCC);
+
+    if (Game::DEBUG)
+        printf("WebsockClient::processpacket packetType: %u, %u\n", packetType, kWelcomeCC);
 
     switch (packetType)
     {
@@ -59,7 +61,8 @@ void WebsockClient::processPacket(InputStream &inputStream)
         break;
     }
 
-    printf("WebsockClient::processpacket Bytes remaining: %u\n", inputStream.getRemainingBitCount());
+    if (Game::DEBUG)
+        printf("WebsockClient::processpacket Bytes remaining: %u\n", inputStream.getRemainingBitCount());
 }
 
 bool WebsockClient::init(std::string address, int pid, std::string name)
@@ -103,7 +106,9 @@ void WebsockClient::handleWelcomePacket(InputStream &inputStream)
     {
         uint32_t playerId(0);
         inputStream.read(playerId);
-        printf("handleWelcomePacket playerId: %u  inputStream: %s\n", playerId, inputStream.getBufferPtr());
+
+        if (Game::DEBUG)
+            printf("handleWelcomePacket playerId: %u  inputStream: %s\n", playerId, inputStream.getBufferPtr());
 
         mPlayerID = playerId;
         mState = ST_WELCOMED;
@@ -171,7 +176,9 @@ EM_BOOL WebsockClient::onMessage(int eventType, const EmscriptenWebSocketMessage
     unsigned char *packet = static_cast<unsigned char *>(websockEvent->data);
     InputStream *inStream = new InputStream(packet, websockEvent->numBytes * 8);
     mReceivedPacket recvPacket(*inStream);
-    printf("onMessage: %s, packet: %s, numBytes: %u\n", inStream->getBufferPtr(), packet, websockEvent->numBytes);
+
+    if (Game::DEBUG)
+        printf("onMessage: %s, packet: %s, numBytes: %u\n", inStream->getBufferPtr(), packet, websockEvent->numBytes);
 
     WebsockClient::sInstance->mPacketQueue.emplace(recvPacket);
 

@@ -49,6 +49,7 @@ public:
     static int WIN_WIDTH;
     static int WIN_HEIGHT;
     static glm::vec2 WIN_RES;
+    static bool DEBUG;
 
     void setValue(std::string key, std::string value);
     std::string getValue(Globals key);

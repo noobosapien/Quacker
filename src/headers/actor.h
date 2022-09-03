@@ -53,8 +53,6 @@ public:
     void addComponent(class Component *component);
     void removeComponent(class Component *component);
 
-    void interpolatePosition(glm::vec2 newPos, float delta);
-
 private:
     State mState;
     glm::vec2 mPosition;
@@ -63,8 +61,6 @@ private:
     float mRotation;
     bool mRecomputeWorldTransform;
     class Game *mGame;
-
-    float mInterpolationTime;
 
     std::vector<class Component *> mComponents;
 };

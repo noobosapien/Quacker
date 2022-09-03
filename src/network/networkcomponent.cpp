@@ -27,8 +27,8 @@ void NetworkComponent::setPacket()
     out->write(std::to_string(height));
 
     out->write(std::string("2")); // rotation
-    float radians = mOwner->getRotation();
-    out->write(std::to_string(radians));
+    int rotation = mOwner->getRotation() * 1000000;
+    out->write(std::to_string(rotation));
 
     mOwner->getGame()->getWebsocket()->setOutgoing(out);
 

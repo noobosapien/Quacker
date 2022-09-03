@@ -15,7 +15,7 @@ setInterval(() => {
   }
 
   // console.log(players);
-}, 33);
+}, 0);
 
 function changeEndianness(val) {
   return (
@@ -37,10 +37,13 @@ wss.on('connection', (ws, req) => {
   ws.onmessage = (event) => {
     let data = event.data;
     let comp = new Uint8Array(data);
-    // console.log(`Client has sent us: ${comp}`);
+    var totalBytes = comp.length;
+    var bytesRead = 0;
 
     let buf = Buffer.from(comp.buffer, 0, 4);
     let out = Buffer.from(buf, 'hex');
+
+    bytesRead += 4;
 
     //HELO
     if (out.toString() === 'OLEH') {
@@ -74,47 +77,85 @@ wss.on('connection', (ws, req) => {
 
     //STATE
     else if (out.toString() === 'TDPU') {
-      buf = Buffer.from(comp.buffer, 4, 4);
+      buf = Buffer.from(comp.buffer, bytesRead, 4);
       let len = changeEndianness(buf.readUInt32BE());
+      bytesRead += 4;
 
-      buf = Buffer.from(comp.buffer, 8, len);
+      buf = Buffer.from(comp.buffer, bytesRead, len);
       out = Buffer.from(buf, 'hex');
-      var pID = Number(out.toString());
+      bytesRead += len;
 
+      var pID = Number(out.toString());
       var arr = players.filter((pl) => pl.id === pID);
 
-      if (arr.length > 0) {
-        buf = Buffer.from(comp.buffer, 8 + len, 4);
-        let len2 = changeEndianness(buf.readUInt32BE());
-        buf = Buffer.from(comp.buffer, 12 + len, len2);
-        out = Buffer.from(buf, 'hex');
-
-        // //out will be the type of stat : 1 for xPos
-        let type = Number(out.toString('utf-8'));
-        // console.log(type);
-
-        switch (type) {
-          case 1:
-            buf = Buffer.from(comp.buffer, 12 + len + len2, 4);
-            out = Buffer.from(buf, 'hex');
-            let len3 = changeEndianness(out.readUInt32BE());
-
-            buf = Buffer.from(comp.buffer, 16 + len + len2, len3);
-
-            out = Buffer.from(buf, 'hex');
-
-            let xPos = Number(out.toString('utf-8'));
-            players.forEach((pl, i) => {
-              if (pl.id === pID) {
-                // console.log(xPos);
-                players[i].xPos = xPos;
-                players[i].pID = pID;
-              }
-            });
-            break; //xPos
-          default:
-            break;
+      players.forEach((pl, i) => {
+        if (pl.id === pID) {
+          players[i].pID = pID;
         }
+      });
+
+      if (arr.length > 0) {
+        while (bytesRead < totalBytes) {
+          // console.log(bytesRead, '   ', totalBytes);
+          buf = Buffer.from(comp.buffer, bytesRead, 4);
+          let len2 = changeEndianness(buf.readUInt32BE());
+          bytesRead += 4;
+
+          buf = Buffer.from(comp.buffer, bytesRead, len2);
+          out = Buffer.from(buf, 'hex');
+          bytesRead += len2;
+
+          // //out will be the type of stat : 1 for xPos
+          let type = Number(out.toString('utf-8'));
+          // console.log(type);
+
+          switch (type) {
+            case 1: {
+              buf = Buffer.from(comp.buffer, bytesRead, 4);
+              out = Buffer.from(buf, 'hex');
+              bytesRead += 4;
+
+              let len3 = changeEndianness(out.readUInt32BE());
+              buf = Buffer.from(comp.buffer, bytesRead, len3);
+              out = Buffer.from(buf, 'hex');
+              bytesRead += len3;
+
+              let xPos = Number(out.toString('utf-8'));
+              players.forEach((pl, i) => {
+                if (pl.id === pID) {
+                  players[i].xPos = xPos;
+                }
+              });
+
+              break; //xPos
+            }
+
+            case 2: {
+              buf = Buffer.from(comp.buffer, bytesRead, 4);
+              out = Buffer.from(buf, 'hex');
+              bytesRead += 4;
+
+              let len3 = changeEndianness(out.readUInt32BE());
+              buf = Buffer.from(comp.buffer, bytesRead, len3);
+              out = Buffer.from(buf, 'hex');
+              bytesRead += len3;
+
+              let rotation = Number(out.toString('utf-8'));
+
+              players.forEach((pl, i) => {
+                if (pl.id === pID) {
+                  players[i].rotation = rotation;
+                }
+              });
+
+              break; //Rotation
+            }
+            default:
+              break;
+          }
+        }
+
+        bytesRead = 0;
       }
     }
   };
@@ -135,7 +176,8 @@ function sendWelcome(player) {
 }
 
 function sendStats(player, enemy) {
-  var STAT = new Int32Array([1398030676, 0, enemy.xPos]);
+  var STAT = new Int32Array([1398030676, 0, enemy.xPos, 1, enemy.rotation]);
+  console.log(enemy.rotation);
   player.ws.send(STAT);
 }
 

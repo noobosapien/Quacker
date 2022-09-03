@@ -1,13 +1,16 @@
 #include "headers/gamepch.h"
 
-MoveComponent::MoveComponent(Actor *owner, CollisionComponent *collider, int updateOrder)
-    : Component(owner, updateOrder), mCollider(collider)
+MoveComponent::MoveComponent(Actor *owner, CollisionComponent *collider, bool interpolate, int updateOrder)
+    : Component(owner, updateOrder), mCollider(collider), mInterpolate(interpolate), mPosInterpolateTime(0.f), mRotInterpolateTime(0.f)
 {
     mDirection = glm::vec2(0.f);
     mSpeed = 0.f;
 
     mRotDirection = glm::vec2(0.f);
     mRotSpeed = 0.f;
+
+    mToPosition = mOwner->getPosition();
+    mToRotation = mOwner->getRotation();
 }
 
 MoveComponent::~MoveComponent()
@@ -72,25 +75,73 @@ void MoveComponent::update(float delta)
 
     glm::vec2 pos = mOwner->getPosition();
 
-    if (pos.x < 0.5 && mDirection.x > 0)
+    if (mInterpolate)
     {
-        pos += mDirection * mSpeed * delta;
-        mOwner->setPosition(pos);
+        interpolatePosition(delta);
+        interpolateRotation(delta);
     }
-    else if (pos.x > -0.5 && mDirection.x < 0)
+    else
     {
-        pos += mDirection * mSpeed * delta;
-        mOwner->setPosition(pos);
+        if (pos.x < 0.5 && mDirection.x > 0)
+        {
+            pos += mDirection * mSpeed * delta;
+            mOwner->setPosition(pos);
+        }
+        else if (pos.x > -0.5 && mDirection.x < 0)
+        {
+            pos += mDirection * mSpeed * delta;
+            mOwner->setPosition(pos);
+        }
+
+        float rot = mOwner->getRotation();
+
+        if (mRotDirection.x < 0 && rot < 270)
+        {
+            mOwner->setRotation(rot + (mRotSpeed * delta));
+        }
+        else if (mRotDirection.x > 0 && rot > 90)
+        {
+            mOwner->setRotation(rot - (mRotSpeed * delta));
+        }
+    }
+}
+
+template <typename T>
+T MoveComponent::linearInterpolate(T value, T to, float time)
+{
+    return value + (to - value) * time;
+}
+
+void MoveComponent::interpolatePosition(float delta)
+{
+    mPosInterpolateTime += 0.1 * delta;
+
+    glm::vec2 position = mOwner->getPosition();
+
+    if (position != mToPosition)
+    {
+        mOwner->setPosition(linearInterpolate(position, mToPosition, mPosInterpolateTime));
     }
 
-    float rot = mOwner->getRotation();
-
-    if (mRotDirection.x < 0 && rot < 270)
+    if (mPosInterpolateTime >= 1.0)
     {
-        mOwner->setRotation(rot + (mRotSpeed * delta));
+        mPosInterpolateTime = 0.f;
     }
-    else if (mRotDirection.x > 0 && rot > 90)
+}
+
+void MoveComponent::interpolateRotation(float delta)
+{
+    mRotInterpolateTime += 0.1 * delta;
+
+    float rotation = mOwner->getRotation();
+
+    if (rotation != mToRotation)
     {
-        mOwner->setRotation(rot - (mRotSpeed * delta));
+        mOwner->setRotation(linearInterpolate(rotation, mToRotation, mRotInterpolateTime));
+    }
+
+    if (mRotInterpolateTime >= 1.0)
+    {
+        mRotInterpolateTime = 0.f;
     }
 }

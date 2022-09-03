@@ -4,6 +4,7 @@ Game::Game() : mPlayer(nullptr), mEnemy(nullptr), mLevel(nullptr), mState(EStart
 {
 }
 
+bool Game::DEBUG = false;
 int Game::WIN_WIDTH = 800;
 int Game::WIN_HEIGHT = 800;
 glm::vec2 Game::WIN_RES = glm::vec2(1.0);

@@ -1,6 +1,6 @@
 #include "headers/gamepch.h"
 
-Player::Player(Game *game, bool left) : Actor(game), mLeft(left), mMovement(nullptr), mInterpolateTo(glm::vec2(0.f))
+Player::Player(Game *game, bool left) : Actor(game), mLeft(left), mMovement(nullptr)
 {
 	setScale(0.1);
 
@@ -17,7 +17,7 @@ Player::Player(Game *game, bool left) : Actor(game), mLeft(left), mMovement(null
 	setPosition(glm::vec2(0.f, -0.4f));
 	setRotation(180.f);
 
-	mMovement = new MoveComponent(this, cc);
+	mMovement = new MoveComponent(this, cc, false);
 	new NetworkComponent(this);
 }
 
@@ -28,10 +28,4 @@ Player::~Player()
 void Player::updateActor(float delta)
 {
 	Actor::updateActor(delta);
-	interpolateTo(delta);
-}
-
-void Player::interpolateTo(float delta)
-{
-	this->interpolatePosition(mInterpolateTo, delta);
 }

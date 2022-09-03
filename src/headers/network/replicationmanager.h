@@ -9,7 +9,8 @@ class ReplicationManager
 public:
     enum ReplicationAction
     {
-        RA_ENEMY_POS
+        RA_ENEMY_POS,
+        RA_ENEMY_ROT
     };
 
     ReplicationManager() = default;
@@ -21,6 +22,7 @@ public:
 
 private:
     void updateEnemyPos(InputStream &inputStream);
+    void updateEnemyRot(InputStream &inputStream);
 
     class Game *mGame;
 };

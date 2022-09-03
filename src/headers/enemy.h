@@ -8,13 +8,11 @@ public:
     ~Enemy();
 
     void updateActor(float delta) override;
-    void interpolateTo(float delta);
-
-    void setInterpolationPosition(glm::vec2 newPos) { mInterpolateTo = newPos; }
+    class MoveComponent *getMoveComponent() { return mMovement; }
 
 private:
-    glm::vec2 mInterpolateTo;
     bool mLeft;
+    class MoveComponent *mMovement;
 };
 
 #endif

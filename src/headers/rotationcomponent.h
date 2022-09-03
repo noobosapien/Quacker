@@ -4,7 +4,6 @@
 class RotationComponent : public Component
 {
 public:
-    friend class AIComponent;
     RotationComponent(Actor *owner, bool clockwise, unsigned int speed);
     ~RotationComponent();
 
