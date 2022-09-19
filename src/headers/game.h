@@ -29,18 +29,8 @@ public:
     void addSprite(SpriteComponent *sprite);
     void removeSprite(SpriteComponent *sprite);
 
-    void addBG(BGComponent *bg);
-    void removeBG(BGComponent *bg);
-
-    void addTilemap(class TilemapComponent *tilemap);
-    void removeTilemap(class TilemapComponent *tilemap);
-
     class Player *getPlayer();
     class Enemy *getEnemy();
-
-    void addEnvironment(class Object *object);
-    void removeEnvironment(class Object *object);
-    std::vector<class Object *> &getEnvironment();
 
     Texture *getTexture(const std::string &filename);
     Camera *getCamera() { return mCamera; }
@@ -68,7 +58,6 @@ private:
 
     bool loadShaders();
     bool loadSpriteShader();
-    bool loadBGShader();
 
     GameState mState;
     bool mConnected;
@@ -85,21 +74,10 @@ private:
 
     // shaders
     Shader *mSpriteShader;
-    Shader *mBGShader;
 
     // game specific
     class Player *mPlayer;
     class Enemy *mEnemy;
-    class GameLevel *mLevel;
-    class Space *mSpace;
-
-    bool mLeft;
-
-    std::vector<class BGComponent *> mBackgrounds;
-
-    class TilemapComponent *mTilemap;
-
-    std::vector<class Object *> mEnvironment;
 
     std::map<Globals, std::string> mDataStore;
 

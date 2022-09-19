@@ -1,4 +1,4 @@
-#include "./headers/gamepch.h"
+#include "headers/gamepch.h"
 
 static Game *game;
 

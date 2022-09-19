@@ -1,6 +1,6 @@
 #include "headers/gamepch.h"
 
-Game::Game() : mPlayer(nullptr), mEnemy(nullptr), mLevel(nullptr), mState(EStart), mLeft(true)
+Game::Game() : mPlayer(nullptr), mEnemy(nullptr), mState(EStart)
 {
 }
 
@@ -32,7 +32,6 @@ bool Game::shutDown()
 
 void Game::startGame(int pid, char *name, bool left)
 {
-    mLeft = left;
 
     if (!loadShaders())
     {
@@ -134,16 +133,6 @@ void Game::generateOutput()
 {
     Engine::generateOutput();
 
-    for (auto bg : mBackgrounds)
-    {
-        bg->draw(mBGShader);
-    }
-
-    if (mTilemap)
-    {
-        // mTilemap->draw(mBGShader);
-    }
-
     for (auto sprite : mSprites)
     {
         sprite->draw(mSpriteShader);
@@ -157,62 +146,8 @@ void Game::loadData()
     mCamera = new Camera();
     Actor *temp = new Actor(this);
 
-    /////////////////////////////////////////////////////////
-    BGComponent *bg = new BGComponent(temp, 50);
-    // bg->setScreenSize(glm::vec2(2.f, 2.f));
-
-    std::vector<Texture *> bgTexs = {
-        getTexture("src/assets/textures/bg3.png"),
-        // getTexture("src/assets/textures/bg2.png"),
-    };
-
-    // bg->setBGTextures(bgTexs);
-    // bg->setScrollSpeed(-.01f);
-
-    // mBackgrounds.push_back(bg);
-
-    bg = new BGComponent(temp, 55);
-    bg->setScreenSize(glm::vec2(1.f, 1.5f));
-
-    bgTexs = {
-        getTexture("src/assets/textures/bg8.png"),
-        // getTexture("src/assets/textures/bg2.png"),
-    };
-
-    bg->setBGTextures(bgTexs);
-    bg->setScrollSpeed(-.0f);
-
-    // mBackgrounds.push_back(bg);
-
-    // bg = new BGComponent(temp, 56);
-    // bg->setScreenSize(glm::vec2(1.f, 1.5f));
-
-    // bgTexs = {
-    //     getTexture("src/assets/textures/bg5.png"),
-    //     // getTexture("src/assets/textures/bg2.png"),
-    // };
-
-    // bg->setBGTextures(bgTexs);
-    // bg->setScrollSpeed(-.03f);
-
-    // mBackgrounds.push_back(bg);
-
-    // bg = new BGComponent(temp, 56);
-    // bg->setScreenSize(glm::vec2(1.f, 1.5f));
-
-    // bgTexs = {
-    //     getTexture("src/assets/textures/bg6.png"),
-    //     // getTexture("src/assets/textures/bg2.png"),
-    // };
-
-    // bg->setBGTextures(bgTexs);
-    // bg->setScrollSpeed(-.04f);
-
-    // mBackgrounds.push_back(bg);
-    /////////////////////////////////////////////////////////
-
-    mPlayer = new Player(this, mLeft);
-    mEnemy = new Enemy(this, !mLeft);
+    mPlayer = new Player(this);
+    mEnemy = new Enemy(this);
     mUtils = new Utils(this);
     EM_ASM({UI_RPC("PLAYER_LOST", 'we', 'fe', 20.4)});
     // mLevel = new GameLevel(this);
@@ -241,12 +176,6 @@ void Game::unloadData()
 
     mTextures.clear();
     delete mCamera;
-
-    if (mTilemap)
-        removeTilemap(mTilemap);
-
-    if (mLevel)
-        delete mLevel; // deleting environment here in the destructor
 
     mDataStore.clear();
 
@@ -308,20 +237,6 @@ void Game::removeSprite(SpriteComponent *sprite)
     }
 }
 
-void Game::addBG(BGComponent *bg)
-{
-    mBackgrounds.push_back(bg);
-}
-
-void Game::removeBG(BGComponent *bg)
-{
-    auto iter = std::find(mBackgrounds.begin(), mBackgrounds.end(), bg);
-    if (iter != mBackgrounds.end())
-    {
-        mBackgrounds.erase(iter);
-    }
-}
-
 Texture *Game::getTexture(const std::string &filename)
 {
     Texture *tex = nullptr;
@@ -345,33 +260,6 @@ Texture *Game::getTexture(const std::string &filename)
     return tex;
 }
 
-void Game::addTilemap(TilemapComponent *tilemap)
-{
-    mTilemap = tilemap;
-}
-
-void Game::removeTilemap(TilemapComponent *tilemap)
-{
-    if (mTilemap)
-    {
-        delete mTilemap;
-    }
-}
-
-void Game::addEnvironment(class Object *object)
-{
-    mEnvironment.push_back(object);
-}
-
-void Game::removeEnvironment(class Object *object)
-{
-    auto iter = std::find(mEnvironment.begin(), mEnvironment.end(), object);
-    if (iter != mEnvironment.end())
-    {
-        mEnvironment.erase(iter);
-    }
-}
-
 Player *Game::getPlayer()
 {
     return mPlayer;
@@ -380,11 +268,6 @@ Player *Game::getPlayer()
 Enemy *Game::getEnemy()
 {
     return mEnemy;
-}
-
-std::vector<class Object *> &Game::getEnvironment()
-{
-    return mEnvironment;
 }
 
 void Game::setValue(std::string key, std::string value)
@@ -413,44 +296,6 @@ bool Game::loadShaders()
 
     if (!loadSpriteShader())
         return false;
-
-    if (!loadBGShader())
-        return false;
-
-    return true;
-}
-
-bool Game::loadBGShader()
-{
-    mBGShader = new Shader();
-
-    if (!mBGShader->load("src/shaders/bg.vert", "src/shaders/bg.frag"))
-    {
-        return false;
-    }
-
-    mBGShader->setActive();
-
-    float vertices[] = {
-        -1.f, 1.f, 0.f, 0.0f, 1.f,
-        1.f, 1.f, 0.f, 1.f, 1.f,
-        1.f, -1.f, 0.f, 1.f, 0.f,
-        -1.f, -1.f, 0.f, 0.f, 0.f};
-
-    // float vertices[] = {
-    //     -1.f, 1.f, 0.f, 0.0f, 1.f,
-    //     1.f, 1.f, 0.f, 1.f, 1.f,
-    //     1.f, -1.f, 0.f, 1.f, 0.f,
-    //     -1.f, -1.f, 0.f, 0.f, 0.f};
-
-    unsigned int indices[] = {
-        0, 1, 2,
-        2, 3, 0};
-
-    mBGShader->setVertexData(vertices, 4, indices, 6, 5);
-
-    mBGShader->setAttrib("a_position", 3, 5, 0);
-    mBGShader->setAttrib("a_texCoord", 2, 5, 3);
 
     return true;
 }

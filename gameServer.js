@@ -85,6 +85,17 @@ wss.on('connection', (ws, req) => {
       out = Buffer.from(buf, 'hex');
       bytesRead += len;
 
+      var time = Number(out.toString());
+      console.log(time);
+
+      buf = Buffer.from(comp.buffer, bytesRead, 4);
+      len = changeEndianness(buf.readUInt32BE());
+      bytesRead += 4;
+
+      buf = Buffer.from(comp.buffer, bytesRead, len);
+      out = Buffer.from(buf, 'hex');
+      bytesRead += len;
+
       var pID = Number(out.toString());
       var arr = players.filter((pl) => pl.id === pID);
 
@@ -150,6 +161,10 @@ wss.on('connection', (ws, req) => {
 
               break; //Rotation
             }
+
+            case 3: {
+            }
+
             default:
               break;
           }
@@ -177,7 +192,7 @@ function sendWelcome(player) {
 
 function sendStats(player, enemy) {
   var STAT = new Int32Array([1398030676, 0, enemy.xPos, 1, enemy.rotation]);
-  console.log(enemy.rotation);
+  // console.log(enemy.rotation);
   player.ws.send(STAT);
 }
 

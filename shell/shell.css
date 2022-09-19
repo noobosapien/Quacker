@@ -133,3 +133,14 @@
     height: 80px;
     background: rgba(255, 0, 0, 0.684);
 }
+
+#shooting_range{
+    top: 70vh;
+    right: 10vw;
+    position: absolute;
+    font-size: 4rem;
+    color: rgb(23, 154, 128);
+    width: 80px;
+    height: 10px;
+    background: rgba(10, 142, 154, 0.684);
+}

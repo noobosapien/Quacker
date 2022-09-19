@@ -1,6 +1,7 @@
 const turner = document.getElementById('turner');
 const turner_left_limit = document.getElementById('turn_left');
 const turner_right_limit = document.getElementById('turn_right');
+const shooting_range = document.getElementById('shooting_range');
 
 turner.ontouchstart = shoot_starthandler;
 turner.ontouchmove = shoot_rotatehandler;
@@ -35,6 +36,7 @@ function shoot_rotatehandler(ev) {
 
   const leftLimit = getOffset(turner_left_limit);
   const rightLimit = getOffset(turner_right_limit);
+  const shootLimit = getOffset(shooting_range);
 
   if (
     ev.targetTouches[0].clientX - 30 > leftLimit.left &&
@@ -51,6 +53,12 @@ function shoot_rotatehandler(ev) {
     document.callRPC('PLAYER_ROTATE_STOP');
   }
 
+  if (ev.targetTouches[0].clientY <= shootLimit.top) {
+    document.callRPC('PLAYER_SHOOT_START');
+  } else {
+    document.callRPC('PLAYER_SHOOT_STOP');
+  }
+
   turner.style.top = ev.targetTouches[0].clientY - 30 + 'px';
 
   // console.log(
@@ -65,6 +73,7 @@ function shoot_endhandler(ev) {
   ev.preventDefault();
   if (document.callRPC) {
     document.callRPC('PLAYER_ROTATE_STOP');
+    document.callRPC('PLAYER_SHOOT_STOP');
     // turner.moving = false;
   }
 }

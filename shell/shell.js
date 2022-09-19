@@ -141,7 +141,7 @@ window.onload = async () => {
 
     // ws = new WebSocket('ws://172.20.10.4:3001/');
 
-    ws = new WebSocket('ws://192.168.8.101:3001/');
+    ws = new WebSocket('ws://192.168.1.105:3001/');
     // ws = new WebSocket('ws://3.104.94.74:3001/');
 
     ws.onopen = async function (e) {
