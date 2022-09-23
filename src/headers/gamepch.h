@@ -4,6 +4,7 @@ class Component;
 #include "engine/enginepch.h"
 #include "actors/actor.h"
 #include "components/component.h"
+#include "components/rendercomponent.h"
 #include "components/spritecomponent.h"
 #include "utils/camera.h"
 #include "network/inoutstreams.h"
@@ -24,6 +25,9 @@ class Component;
 #include "components/circleshapecomponent.h"
 #include "components/rectangleshapecomponent.h"
 #include "components/movecomponent.h"
+#include "components/bulletmovecomponent.h"
 #include "components/shootcomponent.h"
 #include "components/networkcomponent.h"
+#include "components/chargingcomponent.h"
+
 #include "utils/gameUtils.h"

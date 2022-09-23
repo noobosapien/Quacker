@@ -4,7 +4,7 @@
 class ShootComponent : public Component
 {
 public:
-    ShootComponent(Actor *owner);
+    ShootComponent(Actor *owner, bool interpolate);
     ~ShootComponent();
 
     virtual void update(float delta) override;
@@ -12,9 +12,19 @@ public:
     void startToShoot();
     void stopShoot();
 
+    void shootAtDirection(glm::vec2 pos, float rotation, double startTime);
+
+    void writePacket(OutputStream *out);
+
 private:
-    float mWidth;
-    float mHeight;
+    bool mStart;
+    float mCharge;
+    double mStartTime;
+
+    std::vector<Bullet *> mNewBullets;
+
+    void shoot();
+    void removeOutBullets();
 };
 
 #endif

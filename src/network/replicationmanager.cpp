@@ -27,6 +27,10 @@ void ReplicationManager::read(InputStream &inStream)
             updateEnemyRot(inStream);
             break;
 
+        case RA_ENEMY_BULLETS:
+            addEnemyBullets(inStream);
+            break;
+
         default:
             break;
         }
@@ -51,4 +55,28 @@ void ReplicationManager::updateEnemyRot(InputStream &inStream)
     inStream.read(enemyRot);
 
     mGame->getEnemy()->getMoveComponent()->setToRotation((float(enemyRot) / 1000000) - 180.f);
+}
+
+void ReplicationManager::addEnemyBullets(InputStream &inStream)
+{
+    int32_t noOfBullets(0);
+    inStream.read(noOfBullets);
+
+    for (int i = 0; i < noOfBullets; i++)
+    {
+        int32_t posX; // posX
+        int32_t posY; // posY
+        int32_t rot;  // rot
+
+        inStream.read(posX);
+        inStream.read(posY);
+        inStream.read(rot);
+
+        std::cout << float(posX) / 1000000 << ", " << float(posY) / 1000000 << ", " << float(rot) / 1000000 << std::endl;
+        auto enemy = mGame->getEnemy();
+        enemy->getShootComponent()->shootAtDirection(glm::vec2(float(posX) / -1000000,
+                                                               enemy->getPosition().y),
+                                                     (float(rot) / 1000000) - 180.f,
+                                                     mGame->getCurrentTime());
+    }
 }

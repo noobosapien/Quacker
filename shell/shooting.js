@@ -54,8 +54,10 @@ function shoot_rotatehandler(ev) {
   }
 
   if (ev.targetTouches[0].clientY <= shootLimit.top) {
+    turner.style.background = '#fefefe';
     document.callRPC('PLAYER_SHOOT_START');
   } else {
+    turner.style.background = 'rgb(255, 128, 0)';
     document.callRPC('PLAYER_SHOOT_STOP');
   }
 
@@ -74,6 +76,8 @@ function shoot_endhandler(ev) {
   if (document.callRPC) {
     document.callRPC('PLAYER_ROTATE_STOP');
     document.callRPC('PLAYER_SHOOT_STOP');
+
+    turner.style.background = 'rgb(255, 128, 0)';
     // turner.moving = false;
   }
 }

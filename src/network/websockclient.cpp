@@ -141,7 +141,7 @@ void WebsockClient::setOutgoing(OutputStream *out)
 
 void WebsockClient::sendInputPacket()
 {
-    if ((mGame->getCurrentTime() - mLastPacketTime) > 60)
+    if ((mGame->getCurrentTime() - mLastPacketTime) > 60 && WebsockClient::sInstance->connected)
     {
         for (auto out : mOutPackets)
         {
@@ -161,12 +161,16 @@ EM_BOOL WebsockClient::onOpen(int eventType, const EmscriptenWebSocketOpenEvent 
 EM_BOOL WebsockClient::onError(int eventType, const EmscriptenWebSocketErrorEvent *websockEvent, void *userData)
 {
     puts("Error\n");
+
+    WebsockClient::sInstance->connected = false;
     return EM_TRUE;
 }
 
 EM_BOOL WebsockClient::onClose(int eventType, const EmscriptenWebSocketCloseEvent *websockEvent, void *userData)
 {
     puts("Connection closed\n");
+
+    WebsockClient::sInstance->connected = false;
     return EM_TRUE;
 }
 

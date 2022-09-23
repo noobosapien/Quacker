@@ -49,10 +49,12 @@ void Utils::callUIRPC(std::string command)
         break;
 
     case UICalls::PLAYER_SHOOT_START:
+        mGame->getPlayer()->mShoot->startToShoot();
 
         break;
 
     case UICalls::PLAYER_SHOOT_STOP:
+        mGame->getPlayer()->mShoot->stopShoot();
 
         break;
 

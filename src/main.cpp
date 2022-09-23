@@ -15,7 +15,7 @@ extern "C"
     void
     set_win_dim(int width, int height)
 {
-    game->setWinDim(width, height);
+    game->getRenderer()->setWinDim(width, height);
 }
 
 extern "C"

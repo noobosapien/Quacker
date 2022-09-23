@@ -15,7 +15,7 @@ setInterval(() => {
   }
 
   // console.log(players);
-}, 0);
+}, 60);
 
 function changeEndianness(val) {
   return (
@@ -63,6 +63,7 @@ wss.on('connection', (ws, req) => {
       out = Buffer.from(buf, 'hex');
 
       player.name = out.toString();
+      player.bullets = [];
 
       const arr = players.filter((pl) => pl.id === player.id);
 
@@ -86,7 +87,7 @@ wss.on('connection', (ws, req) => {
       bytesRead += len;
 
       var time = Number(out.toString());
-      console.log(time);
+      // console.log(time);
 
       buf = Buffer.from(comp.buffer, bytesRead, 4);
       len = changeEndianness(buf.readUInt32BE());
@@ -163,6 +164,106 @@ wss.on('connection', (ws, req) => {
             }
 
             case 3: {
+              //number of bullets
+              //for each bullet
+              //start time
+              //shoot time
+              //decide to keep
+              //pos.x
+              //pos.y
+              //rot
+              //push to player's bullet array
+
+              buf = Buffer.from(comp.buffer, bytesRead, 4);
+              out = Buffer.from(buf, 'hex');
+              bytesRead += 4;
+
+              let len3 = changeEndianness(out.readUInt32BE());
+              buf = Buffer.from(comp.buffer, bytesRead, len3);
+              out = Buffer.from(buf, 'hex');
+              bytesRead += len3;
+
+              let noOfBullets = Number(out.toString('utf-8'));
+              let bullets = [];
+              // console.log(noOfBullets);
+
+              for (var i = 0; i < noOfBullets; i++) {
+                buf = Buffer.from(comp.buffer, bytesRead, 4);
+                out = Buffer.from(buf, 'hex');
+                bytesRead += 4;
+
+                len3 = changeEndianness(out.readUInt32BE());
+                buf = Buffer.from(comp.buffer, bytesRead, len3);
+                out = Buffer.from(buf, 'hex');
+                bytesRead += len3;
+
+                let startTime = Number(out.toString('utf-8'));
+
+                buf = Buffer.from(comp.buffer, bytesRead, 4);
+                out = Buffer.from(buf, 'hex');
+                bytesRead += 4;
+
+                len3 = changeEndianness(out.readUInt32BE());
+                buf = Buffer.from(comp.buffer, bytesRead, len3);
+                out = Buffer.from(buf, 'hex');
+                bytesRead += len3;
+
+                let shootTime = Number(out.toString('utf-8'));
+
+                if (shootTime - startTime < 2950) break;
+
+                buf = Buffer.from(comp.buffer, bytesRead, 4);
+                out = Buffer.from(buf, 'hex');
+                bytesRead += 4;
+
+                len3 = changeEndianness(out.readUInt32BE());
+                buf = Buffer.from(comp.buffer, bytesRead, len3);
+                out = Buffer.from(buf, 'hex');
+                bytesRead += len3;
+
+                let bulletPosX = Number(out.toString('utf-8')); //position X
+                // console.log(bulletPosX);
+
+                buf = Buffer.from(comp.buffer, bytesRead, 4);
+                out = Buffer.from(buf, 'hex');
+                bytesRead += 4;
+
+                len3 = changeEndianness(out.readUInt32BE());
+                buf = Buffer.from(comp.buffer, bytesRead, len3);
+                out = Buffer.from(buf, 'hex');
+                bytesRead += len3;
+
+                let bulletPosY = Number(out.toString('utf-8')); //position Y
+                // console.log(bulletPosY);
+
+                buf = Buffer.from(comp.buffer, bytesRead, 4);
+                out = Buffer.from(buf, 'hex');
+                bytesRead += 4;
+
+                len3 = changeEndianness(out.readUInt32BE());
+                buf = Buffer.from(comp.buffer, bytesRead, len3);
+                out = Buffer.from(buf, 'hex');
+                bytesRead += len3;
+
+                let bulletRot = Number(out.toString('utf-8')); //rotation
+
+                //create an object and push it into bullets array
+                var bullet = {
+                  posX: bulletPosX,
+                  posY: bulletPosY,
+                  rot: bulletRot,
+                };
+
+                bullets.push(bullet);
+              }
+
+              players.forEach((pl, i) => {
+                if (pl.id === pID && bullets.length > 0) {
+                  players[i].bullets = [...bullets];
+                }
+              });
+
+              break;
             }
 
             default:
@@ -191,8 +292,30 @@ function sendWelcome(player) {
 }
 
 function sendStats(player, enemy) {
-  var STAT = new Int32Array([1398030676, 0, enemy.xPos, 1, enemy.rotation]);
-  // console.log(enemy.rotation);
+  var numOfBullets = enemy.bullets instanceof Array ? enemy.bullets.length : 0;
+  var bulletsArray = [];
+
+  if (numOfBullets > 0) {
+    for (var i = 0; i < numOfBullets; i++) {
+      bulletsArray.push(enemy.bullets[i].posX);
+      bulletsArray.push(enemy.bullets[i].posY);
+      bulletsArray.push(enemy.bullets[i].rot);
+    }
+
+    enemy.bullets = [];
+  }
+
+  var STAT = new Int32Array([
+    1398030676,
+    0,
+    enemy.xPos,
+    1,
+    enemy.rotation,
+    2,
+    numOfBullets,
+    ...bulletsArray,
+  ]);
+
   player.ws.send(STAT);
 }
 

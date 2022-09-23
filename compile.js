@@ -10,6 +10,7 @@ const options = [
   `-s EXPORTED_FUNCTIONS="['_main', '_set_win_dim', '_start_game', '_set_game_data', '_call_ui_rpc']"`,
   `-s EXTRA_EXPORTED_RUNTIME_METHODS="['cwrap', 'ccall']"`,
   `-lwebsocket.js`,
+  `-lembind`,
   `-s NO_EXIT_RUNTIME=1`,
   `-s USE_SDL=2`,
   `-s USE_SDL_IMAGE=2`,
@@ -21,6 +22,7 @@ const options = [
   '--preload-file src/network',
   '-s LLD_REPORT_UNDEFINED',
   '-s ALLOW_MEMORY_GROWTH=1',
+  `--bind`,
   '--no-heap-copy',
 ];
 

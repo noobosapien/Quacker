@@ -12,18 +12,16 @@ public:
     void initialize(int width, int height);
     void shutDown();
 
-    SDL_Renderer *getRenderer() { return renderer; }
     void setDebug(bool value) { mDebug = value; }
 
     double getCurrentTime();
+    class Renderer *getRenderer() { return mRenderer; }
 
 protected:
     virtual void updateGame();
     virtual void generateOutput();
 
-    SDL_Window *window;
-    SDL_Renderer *renderer;
-    SDL_GLContext gl_context;
+    class Renderer *mRenderer;
 
     bool mDebug;
 

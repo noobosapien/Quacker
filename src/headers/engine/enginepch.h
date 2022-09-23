@@ -15,10 +15,12 @@
 #include <chrono>
 #include <map>
 #include <stdarg.h>
+#include <memory>
 
 #ifdef __EMSCRIPTEN__
 #include <emscripten.h>
 #include "emscripten/websocket.h"
+#include <emscripten/bind.h>
 #endif
 
 #include <SDL2/SDL.h>
@@ -34,3 +36,4 @@
 #include <GL/glfw.h>
 
 #include "engine.h"
+#include "../utils/renderer.h"

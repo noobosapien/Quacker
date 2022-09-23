@@ -4,8 +4,8 @@ Player::Player(Game *game) : Actor(game), mMovement(nullptr)
 {
 	setScale(0.1);
 
-	SpriteComponent *sc = new SpriteComponent(this, 150);
-	sc->setTexture(game->getTexture("src/assets/textures/Ship1.png"));
+	SpriteComponent *sc = new SpriteComponent(this, getGame()->getRenderer(), 150);
+	sc->setTexture(getGame()->getRenderer()->getTexture("src/assets/textures/Ship1.png"));
 
 	CircleShapeComponent *csc = new CircleShapeComponent(this, static_cast<float>(getScale()));
 	CollisionComponent *cc = new CollisionComponent(this, csc);
@@ -16,6 +16,8 @@ Player::Player(Game *game) : Actor(game), mMovement(nullptr)
 	setRotation(180.f);
 
 	mMovement = new MoveComponent(this, cc, false);
+	mShoot = new ShootComponent(this, false);
+
 	new NetworkComponent(this);
 }
 
@@ -31,4 +33,5 @@ void Player::updateActor(float delta)
 void Player::writePacket(OutputStream *out)
 {
 	mMovement->writePacket(out);
+	mShoot->writePacket(out);
 }
