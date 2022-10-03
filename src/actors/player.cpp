@@ -1,6 +1,6 @@
 #include "../headers/gamepch.h"
 
-Player::Player(Game *game) : Actor(game), mMovement(nullptr)
+Player::Player(Game *game) : Actor(game), mMovement(nullptr), mCharge(nullptr)
 {
 	setScale(0.1);
 
@@ -16,7 +16,8 @@ Player::Player(Game *game) : Actor(game), mMovement(nullptr)
 	setRotation(180.f);
 
 	mMovement = new MoveComponent(this, cc, false);
-	mShoot = new ShootComponent(this, false);
+	mCharge = new ChargingComponent(this, getGame()->getRenderer(), 140);
+	mShoot = new ShootComponent(this, false, mCharge);
 
 	new NetworkComponent(this);
 }

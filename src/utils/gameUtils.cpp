@@ -86,3 +86,27 @@ void Utils::addUICommand(std::string name, UICalls method)
 {
     mUICommands[name] = method;
 }
+
+template <typename T>
+T Curves::cubic_bezier(T a, T b, T c, T d, float time)
+{
+    return (time * time * time * (-a + 2 * b - 2 * c + d)) +
+           (time * time * (3 * a - 6 * b + 3 * c)) +
+           (time * (-3 * a + 3 * b)) + c;
+}
+
+float Curves::f_cubic_bezier(float a, float b, float c, float d, float time)
+{
+    return cubic_bezier(a, b, c, d, time);
+}
+
+template <typename T>
+T Curves::linearInterpolate(T value, T to, float time)
+{
+    return value + (to - value) * time;
+}
+
+float Curves::f_linearInterpolate(float value, float to, float time)
+{
+    return linearInterpolate(value, to, time);
+}

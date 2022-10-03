@@ -15,6 +15,7 @@ public:
 private:
     class MoveComponent *mMovement;
     class ShootComponent *mShoot;
+    class ChargingComponent *mCharge;
 };
 
 #endif

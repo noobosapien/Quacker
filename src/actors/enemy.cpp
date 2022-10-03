@@ -15,7 +15,8 @@ Enemy::Enemy(Game *game) : Actor(game)
     setPosition(glm::vec2(0.f, 0.4f));
 
     mMovement = new MoveComponent(this, cc, true);
-    mShoot = new ShootComponent(this, true);
+    mCharge = new ChargingComponent(this, getGame()->getRenderer(), 140);
+    mShoot = new ShootComponent(this, true, mCharge);
     // new AIComponent(this, mc, left, rot);
 }
 

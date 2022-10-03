@@ -34,4 +34,15 @@ private:
     void initializeUICommands();
 };
 
+namespace Curves
+{
+    template <typename T>
+    T cubic_bezier(T a, T b, T c, T d, float time);
+    float f_cubic_bezier(float a, float b, float c, float d, float time);
+
+    template <typename T>
+    T linearInterpolate(T value, T to, float time);
+    float f_linearInterpolate(float value, float to, float time);
+
+} // namespace Curves
 #endif

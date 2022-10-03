@@ -1,8 +1,9 @@
 #include "../headers/gamepch.h"
 
-ShootComponent::ShootComponent(Actor *owner, bool interpolate) : Component(owner),
-                                                                 mCharge(0.f),
-                                                                 mStart(false)
+ShootComponent::ShootComponent(Actor *owner, bool interpolate, ChargingComponent *charger) : Component(owner),
+                                                                                             mCharge(0.f),
+                                                                                             mStart(false),
+                                                                                             mCharger(charger)
 {
 }
 
@@ -23,6 +24,8 @@ void ShootComponent::update(float delta)
             mStartTime = mOwner->getGame()->getCurrentTime();
             mCharge = 0.f;
         }
+
+        mCharger->setIntensity(mCharge);
     }
     removeOutBullets();
 }
@@ -33,6 +36,7 @@ void ShootComponent::startToShoot()
     {
         mStartTime = mOwner->getGame()->getCurrentTime();
         mStart = true;
+        mCharger->setShow(true);
     }
 }
 
@@ -41,6 +45,7 @@ void ShootComponent::stopShoot()
     mStartTime = 0.;
     mStart = false;
     mCharge = 0.f;
+    mCharger->setShow(false);
 }
 
 void ShootComponent::shoot()

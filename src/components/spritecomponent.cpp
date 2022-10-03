@@ -6,13 +6,12 @@ SpriteComponent::SpriteComponent(Actor *owner, Renderer *renderer, int drawOrder
                                                                                     mTexHeight(0)
 {
     mRenderer->insertObject(this, mDrawOrder);
-    mShader = mRenderer->getShader(std::string("sprite"));
+    mShader = mRenderer->getShader("sprite");
 }
 
 SpriteComponent::~SpriteComponent()
 {
     mRenderer->removeObject(this);
-    // Component::~Component();
 }
 
 void SpriteComponent::draw()
@@ -30,8 +29,6 @@ void SpriteComponent::draw()
         mShader->setMatrixUniform("u_viewproj", mRenderer->getCamera()->getViewProj());
 
         mTexture->setActive();
-
-        glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, nullptr);
     }
 }
 

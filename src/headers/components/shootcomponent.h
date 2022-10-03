@@ -4,7 +4,7 @@
 class ShootComponent : public Component
 {
 public:
-    ShootComponent(Actor *owner, bool interpolate);
+    ShootComponent(Actor *owner, bool interpolate, ChargingComponent *charger);
     ~ShootComponent();
 
     virtual void update(float delta) override;
@@ -20,6 +20,7 @@ private:
     bool mStart;
     float mCharge;
     double mStartTime;
+    ChargingComponent *mCharger;
 
     std::vector<Bullet *> mNewBullets;
 

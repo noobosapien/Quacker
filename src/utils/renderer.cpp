@@ -74,7 +74,7 @@ void Renderer::setWinDim(int width, int height)
 
 void Renderer::update()
 {
-    glClearColor(0.130, 0.130, 0.130, 1.0);
+    glClearColor(0.196, 0.161, 0.278, 1.0);
     glClear(GL_COLOR_BUFFER_BIT);
     glEnable(GL_BLEND);
     glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
@@ -82,12 +82,13 @@ void Renderer::update()
     for (auto obj : mRenders)
     {
         obj->draw();
+        glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, nullptr);
     }
 
     SDL_GL_SwapWindow(window);
 }
 
-Shader *Renderer::getShader(std::string name)
+Shader *Renderer::getShader(const std::string &name)
 {
     if (mShaders[name])
         return mShaders[name];

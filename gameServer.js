@@ -15,7 +15,7 @@ setInterval(() => {
   }
 
   // console.log(players);
-}, 60);
+}, 60); //simulated latency
 
 function changeEndianness(val) {
   return (

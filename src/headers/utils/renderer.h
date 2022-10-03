@@ -16,7 +16,11 @@ public:
     bool loadChargingShader();
 
     void update();
-    class Shader *getShader(std::string name);
+    class Shader *getShader(const std::string &name);
+    void manualDrawTriangles()
+    {
+        glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, nullptr);
+    }
 
     void insertObject(class RenderComponent *render, unsigned int drawOrder);
     void removeObject(class RenderComponent *render);

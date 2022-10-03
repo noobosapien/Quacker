@@ -29,5 +29,6 @@ class Component;
 #include "components/shootcomponent.h"
 #include "components/networkcomponent.h"
 #include "components/chargingcomponent.h"
+#include "components/starbgcomponent.h"
 
 #include "utils/gameUtils.h"

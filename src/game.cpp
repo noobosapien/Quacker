@@ -111,6 +111,7 @@ void Game::generateOutput()
 void Game::loadData()
 {
     Actor *temp = new Actor(this);
+    new StarBGComponent(temp, mRenderer, mRenderer->getTexture("src/assets/textures/star_07.png"), 25);
 
     mPlayer = new Player(this);
     mEnemy = new Enemy(this);

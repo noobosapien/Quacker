@@ -12,6 +12,8 @@ Engine::~Engine()
 
 void Engine::initialize(int width, int height)
 {
+    time_t t;
+    srand((unsigned)time(&t));
     mRenderer->initialize(width, height);
 }
 
