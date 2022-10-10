@@ -79,11 +79,11 @@ void StarBGComponent::update(float delta)
             break;
 
         case 1:
-            star->mPosition.y -= 0.05 * delta;
+            star->mPosition.y -= 0.1 * delta;
             break;
 
         case 2:
-            star->mPosition.y -= 0.08 * delta;
+            star->mPosition.y -= 0.2 * delta;
             break;
 
         default:
@@ -128,7 +128,7 @@ void StarBGComponent::update(float delta)
             float totalDuration = 6.f + static_cast<float>(rand()) / (static_cast<float>(RAND_MAX) / 9.f);
 
             float rotSpeed = 30.f + static_cast<float>(rand()) / (static_cast<float>(RAND_MAX) / 70.f);
-            float toScale = 0.02 + static_cast<float>(rand()) / (static_cast<float>(RAND_MAX) / 0.04);
+            float toScale = 0.02 + static_cast<float>(rand()) / (static_cast<float>(RAND_MAX) / 0.06);
 
             int vertSpeed = 0 + (rand() % (1 - 0 + 1)) == 1 + (rand() % (1 - 0 + 1)) == 1;
 

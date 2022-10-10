@@ -79,6 +79,7 @@ void ShootComponent::removeOutBullets()
 {
 
     std::vector<Bullet *> &bullets = mOwner->getGame()->getBullets(mOwner);
+    // std::cout << bullets.size() << std::endl;
 
     for (int i = 0; i < bullets.size(); i++)
     {
@@ -87,7 +88,14 @@ void ShootComponent::removeOutBullets()
             bullets[i]->getPosition().y < -1.f ||
             bullets[i]->getPosition().y > 1.f)
         {
-            bullets.erase(bullets.begin() + i);
+            bullets[i]->setState(Actor::EDead);
+
+            auto iter = std::find(bullets.begin(), bullets.end(), bullets[i]);
+            if (iter != bullets.end())
+            {
+                std::iter_swap(iter, bullets.end() - 1);
+                bullets.pop_back();
+            }
         }
     }
 }

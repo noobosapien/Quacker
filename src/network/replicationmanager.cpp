@@ -31,6 +31,10 @@ void ReplicationManager::read(InputStream &inStream)
             addEnemyBullets(inStream);
             break;
 
+        case RA_REMOVE_BULLETS:
+            removeBullets(inStream);
+            break;
+
         default:
             break;
         }
@@ -72,11 +76,48 @@ void ReplicationManager::addEnemyBullets(InputStream &inStream)
         inStream.read(posY);
         inStream.read(rot);
 
-        std::cout << float(posX) / 1000000 << ", " << float(posY) / 1000000 << ", " << float(rot) / 1000000 << std::endl;
         auto enemy = mGame->getEnemy();
         enemy->getShootComponent()->shootAtDirection(glm::vec2(float(posX) / -1000000,
                                                                enemy->getPosition().y),
                                                      (float(rot) / 1000000) - 180.f,
                                                      mGame->getCurrentTime());
+    }
+}
+
+void ReplicationManager::removeBullets(InputStream &inputStream)
+{
+    int32_t noOfBullets;
+    int32_t bulletId;
+
+    inputStream.read(noOfBullets);
+    if (noOfBullets > 0)
+    {
+
+        std::vector<Bullet *> &eBullets = mGame->getBullets(mGame->getPlayer());
+        std::vector<int> bulletIDs;
+
+        for (int32_t i = 0; i < noOfBullets; i++)
+        {
+            inputStream.read(bulletId);
+            bulletIDs.push_back(static_cast<int>(bulletId));
+        }
+
+        for (int id : bulletIDs)
+        {
+            for (Bullet *bullet : eBullets)
+            {
+                if (bullet->getID() == id)
+                {
+                    auto iter = std::find(eBullets.begin(), eBullets.end(), bullet);
+                    if (iter != eBullets.end())
+                    {
+                        std::iter_swap(iter, eBullets.end() - 1);
+                        eBullets.pop_back();
+                    }
+
+                    bullet->setState(Actor::EDead);
+                }
+            }
+        }
     }
 }

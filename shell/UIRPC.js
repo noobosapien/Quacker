@@ -9,6 +9,7 @@ function UI_RPC(command, ...args) {
       break;
 
     case 'PLAYER_HP_HIT':
+      console.log(args);
       break;
 
     case 'ENEMY_HP_HIT':

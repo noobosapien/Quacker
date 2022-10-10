@@ -13,14 +13,12 @@ Actor::Actor(Game *game) : mState(EActive),
 
 Actor::~Actor()
 {
-    for (auto component : mComponents)
-    {
-        std::cout << "Component size: " << mComponents.size() << std::endl;
-        delete component;
-    }
-    std::cout << "Components size: " << mComponents.size() << std::endl;
-
     mGame->removeActor(this);
+
+    while (!mComponents.empty())
+    {
+        delete mComponents.back();
+    }
 }
 
 void Actor::update(float delta)

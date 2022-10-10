@@ -20,6 +20,7 @@ private:
     class MoveComponent *mMovement;
     class ShootComponent *mShoot;
     class ChargingComponent *mCharge;
+    class DebugHPComponent *mHp;
 };
 
 #endif

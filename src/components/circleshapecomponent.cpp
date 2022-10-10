@@ -18,13 +18,36 @@ glm::vec2 CircleShapeComponent::shapeIntersection(CollisionShapeComponent *shape
     switch (shapeComponent->getType())
     {
     case SHAPE_TYPE::CIRCLE:
+    {
         // circle circle collision
+        CircleShapeComponent *circle = nullptr;
+        circle = dynamic_cast<CircleShapeComponent *>(shapeComponent);
+
+        if (circle == nullptr)
+        {
+            return glm::vec2(0.f);
+        }
+
+        float distX = mOwner->getPosition().x - circle->getPosition().x;
+        float distY = mOwner->getPosition().y - circle->getPosition().y;
+
+        float distanceSQ = (distX * distX) + (distY * distY);
+        // std::cout << distanceSQ << "    " << (this->getRadius() + circle->getRadius()) * (this->getRadius() + circle->getRadius()) << std::endl;
+        // std::cout << distanceSQ << "    " << circle->getPosition().y << std::endl;
+
+        if (distanceSQ <= ((this->getRadius() + circle->getRadius()) * (this->getRadius() + circle->getRadius())))
+        {
+            return glm::vec2(1.f);
+        }
+
         return glm::vec2(0.f);
         break;
+    }
 
     case SHAPE_TYPE::RECTANGLE:
+    {
         // circle rectangle collision
-        RectangleShapeComponent *rect = dynamic_cast<RectangleShapeComponent *>(shapeComponent);
+        RectangleShapeComponent *rect = static_cast<RectangleShapeComponent *>(shapeComponent);
 
         if (!rect)
             return glm::vec2(0.f);
@@ -69,8 +92,12 @@ glm::vec2 CircleShapeComponent::shapeIntersection(CollisionShapeComponent *shape
             return norm;
         }
 
+        return glm::vec2(0.f);
+
         break;
     }
 
-    return glm::vec2(0.f);
+    default:
+        return glm::vec2(0.f);
+    }
 }

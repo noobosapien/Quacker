@@ -10,7 +10,12 @@ public:
     virtual void update(float delta) override;
     virtual glm::vec2 shapeIntersection(CollisionShapeComponent *shapeComponent) override;
 
-    float getRadius() { return mRadius; }
+    inline float getRadius() { return mRadius; }
+
+    inline glm::vec2 getPosition()
+    {
+        return mOwner->getPosition();
+    }
 
 private:
     float mRadius;

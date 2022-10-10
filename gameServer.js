@@ -266,6 +266,43 @@ wss.on('connection', (ws, req) => {
               break;
             }
 
+            case 4: {
+              buf = Buffer.from(comp.buffer, bytesRead, 4);
+              out = Buffer.from(buf, 'hex');
+              bytesRead += 4;
+
+              let len3 = changeEndianness(out.readUInt32BE());
+              buf = Buffer.from(comp.buffer, bytesRead, len3);
+              out = Buffer.from(buf, 'hex');
+              bytesRead += len3;
+
+              let noOfBullets = Number(out.toString('utf-8'));
+
+              // if (noOfBullets > 0) console.log(noOfBullets);
+              let bulletIds = [];
+
+              for (var i = 0; i < noOfBullets; i++) {
+                buf = Buffer.from(comp.buffer, bytesRead, 4);
+                out = Buffer.from(buf, 'hex');
+                bytesRead += 4;
+
+                len3 = changeEndianness(out.readUInt32BE());
+                buf = Buffer.from(comp.buffer, bytesRead, len3);
+                out = Buffer.from(buf, 'hex');
+                bytesRead += len3;
+
+                let bulletID = Number(out.toString('utf-8'));
+                bulletIds.push(bulletID);
+              }
+
+              //enemy should get the bullets to remove
+              players.forEach((pl, i) => {
+                if (pl.id !== pID && bulletIds.length > 0) {
+                  players[i].removeBullets = [...bulletIds];
+                }
+              });
+            }
+
             default:
               break;
           }
@@ -305,6 +342,18 @@ function sendStats(player, enemy) {
     enemy.bullets = [];
   }
 
+  var bulletsToRemove =
+    player.removeBullets instanceof Array ? player.removeBullets.length : 0;
+  var removeBullets =
+    player.removeBullets instanceof Array ? [...player.removeBullets] : [];
+
+  player.removeBullets = [];
+
+  if (bulletsToRemove > 0) {
+    console.log('Bullets to remove: ', bulletsToRemove);
+    console.log(removeBullets);
+  }
+
   var STAT = new Int32Array([
     1398030676,
     0,
@@ -314,6 +363,9 @@ function sendStats(player, enemy) {
     2,
     numOfBullets,
     ...bulletsArray,
+    3,
+    bulletsToRemove,
+    ...removeBullets,
   ]);
 
   player.ws.send(STAT);
