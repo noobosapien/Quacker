@@ -11,6 +11,7 @@ public:
 
     class MoveComponent *getMoveComponent() { return mMovement; }
     class ShootComponent *getShootComponent() { return mShoot; }
+    class DebugHPComponent *getHpComponent() { return mHp; }
 
 private:
     class MoveComponent *mMovement;

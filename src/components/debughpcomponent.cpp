@@ -3,6 +3,7 @@
 DebugHPComponent::DebugHPComponent(Actor *owner, CollisionComponent *collider, bool isEnemy) : Component(owner),
                                                                                                mCollider(collider),
                                                                                                mHealth(100),
+                                                                                               mEnemyHealth(100),
                                                                                                mIsEnemy(isEnemy)
 {
 }
@@ -35,12 +36,15 @@ void DebugHPComponent::update(float delta)
             mDestroyedBullets.push_back(bullet->getID());
 
             std::cout << "Id of the deleted: " << bullet->getID() << std::endl;
+
+            updateHp(mHealth - 10);
         }
     }
 }
 
 void DebugHPComponent::writePacket(OutputStream *out)
 {
+
     out->write(std::string("4"));
     out->write(std::to_string(mDestroyedBullets.size()));
 
@@ -50,4 +54,7 @@ void DebugHPComponent::writePacket(OutputStream *out)
     }
 
     mDestroyedBullets.clear();
+
+    out->write(std::string("5"));
+    out->write(std::to_string(mHealth));
 }

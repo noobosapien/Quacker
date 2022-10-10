@@ -14,13 +14,26 @@ public:
     {
         if (health <= 100 && health >= 0)
         {
-            mHealth = health;
+            if (!mIsEnemy)
+            {
+                mHealth = health;
+                EM_ASM({UI_RPC("PLAYER_HP_HIT", $0)}, mHealth);
+            }
+            else
+            {
+                if (mEnemyHealth != health)
+                {
+                    mEnemyHealth = health;
+                    EM_ASM({UI_RPC("ENEMY_HP_HIT", $0)}, mEnemyHealth);
+                }
+            }
         }
     }
 
 private:
     class CollisionComponent *mCollider;
     int mHealth;
+    int mEnemyHealth;
     bool mIsEnemy;
     std::vector<int> mDestroyedBullets;
 };

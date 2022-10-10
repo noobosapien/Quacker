@@ -35,6 +35,10 @@ void ReplicationManager::read(InputStream &inStream)
             removeBullets(inStream);
             break;
 
+        case RA_ENEMY_HEALTH:
+            updateEnemyHealth(inStream);
+            break;
+
         default:
             break;
         }
@@ -119,5 +123,16 @@ void ReplicationManager::removeBullets(InputStream &inputStream)
                 }
             }
         }
+    }
+}
+
+void ReplicationManager::updateEnemyHealth(InputStream &inputStream)
+{
+    int32_t health(0);
+    inputStream.read(health);
+
+    if (health <= 100 && health >= 0)
+    {
+        mGame->getEnemy()->getHpComponent()->updateHp(static_cast<int>(health));
     }
 }

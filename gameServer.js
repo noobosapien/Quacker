@@ -301,6 +301,30 @@ wss.on('connection', (ws, req) => {
                   players[i].removeBullets = [...bulletIds];
                 }
               });
+
+              break;
+            }
+
+            case 5: {
+              buf = Buffer.from(comp.buffer, bytesRead, 4);
+              out = Buffer.from(buf, 'hex');
+              bytesRead += 4;
+
+              let len3 = changeEndianness(out.readUInt32BE());
+              buf = Buffer.from(comp.buffer, bytesRead, len3);
+              out = Buffer.from(buf, 'hex');
+              bytesRead += len3;
+
+              let playerHealth = Number(out.toString('utf-8'));
+              console.log(playerHealth);
+
+              players.forEach((pl, i) => {
+                if (pl.id === pID) {
+                  players[i].health = playerHealth;
+                }
+              });
+
+              break;
             }
 
             default:
@@ -329,6 +353,8 @@ function sendWelcome(player) {
 }
 
 function sendStats(player, enemy) {
+  var enemyHealth = enemy.health ? enemy.health : 0;
+
   var numOfBullets = enemy.bullets instanceof Array ? enemy.bullets.length : 0;
   var bulletsArray = [];
 
@@ -349,10 +375,10 @@ function sendStats(player, enemy) {
 
   player.removeBullets = [];
 
-  if (bulletsToRemove > 0) {
-    console.log('Bullets to remove: ', bulletsToRemove);
-    console.log(removeBullets);
-  }
+  // if (bulletsToRemove > 0) {
+  //   console.log('Bullets to remove: ', bulletsToRemove);
+  //   console.log(removeBullets);
+  // }
 
   var STAT = new Int32Array([
     1398030676,
@@ -366,6 +392,8 @@ function sendStats(player, enemy) {
     3,
     bulletsToRemove,
     ...removeBullets,
+    4,
+    enemyHealth,
   ]);
 
   player.ws.send(STAT);
