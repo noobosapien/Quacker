@@ -1,10 +1,17 @@
 const express = require('express');
 const bodyParser = require('body-parser');
+const cors = require('cors');
 
 const app = express();
 
+var corsOptions = {
+  origin: '*',
+  optionsSuccessStatus: 200,
+};
+
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
+app.use(cors(corsOptions));
 
 app.use(express.static('./build'));
 app.use(express.static('./'));

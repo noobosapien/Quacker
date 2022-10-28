@@ -15,7 +15,7 @@ setInterval(() => {
   }
 
   // console.log(players);
-}, 60); //simulated latency
+}, 0); //simulated latency
 
 function changeEndianness(val) {
   return (
@@ -316,7 +316,7 @@ wss.on('connection', (ws, req) => {
               bytesRead += len3;
 
               let playerHealth = Number(out.toString('utf-8'));
-              console.log(playerHealth);
+              // console.log(playerHealth);
 
               players.forEach((pl, i) => {
                 if (pl.id === pID) {
@@ -349,7 +349,8 @@ wss.on('connection', (ws, req) => {
 
 function sendWelcome(player) {
   var WLCM = new Uint32Array([1464615757, player.id]);
-  player.ws.send(WLCM);
+  console.log(player);
+  player?.ws?.send(WLCM);
 }
 
 function sendStats(player, enemy) {

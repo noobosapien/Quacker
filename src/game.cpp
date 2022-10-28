@@ -39,7 +39,7 @@ void Game::startGame(int pid, char *name, bool left)
     loadData();
     loadNetwork(pid, name);
 
-    mState = EGameplay;
+        mState = EGameplay;
 }
 
 // private
@@ -116,10 +116,6 @@ void Game::loadData()
     mPlayer = new Player(this);
     mEnemy = new Enemy(this);
     mUtils = new Utils(this);
-
-    EM_ASM({UI_RPC("PLAYER_LOST", 'we', 'fe', 20.4)});
-    // mLevel = new GameLevel(this);
-    // mLevel->load("src/assets/levels/1.txt", 800, 800);
 }
 
 void Game::loadNetwork(int pid, char *name)

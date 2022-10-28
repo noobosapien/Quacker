@@ -121,59 +121,76 @@ window.onerror = function () {
   };
 };
 
-var pid = 0;
-var plName = 'Gamer';
+// var pid = 0;
+// var plName = 'Gamer';
 
-window.onload = async () => {
-  try {
-    const abortController = new AbortController();
-    const signal = abortController.signal;
+// window.onload = async () => {
+//   try {
+//     const abortController = new AbortController();
+//     const signal = abortController.signal;
 
-    let response = await fetch('/pid/', {
-      method: 'GET',
-      signal,
-    });
+//     let response = await fetch('/pid/', {
+//       method: 'GET',
+//       signal,
+//     });
 
-    result = await response.json();
-    pid = result.pid;
+//     result = await response.json();
+//     pid = result.pid;
 
-    //web socket stuff
+//     //web socket stuff
 
-    // ws = new WebSocket('ws://172.20.10.4:3001/');
+//     // ws = new WebSocket('ws://172.20.10.4:3001/');
 
-    ws = new WebSocket('ws://192.168.1.71:3001/');
-    // ws = new WebSocket('ws://3.104.94.74:3001/');
+//     ws = new WebSocket('ws://192.168.1.71:3001/');
+//     // ws = new WebSocket('ws://3.104.94.74:3001/');
 
-    ws.onopen = async function (e) {
-      console.log('Connection to the index ws server opened');
-    };
+//     ws.onopen = async function (e) {
+//       console.log('Connection to the index ws server opened');
+//     };
 
-    ws.addEventListener('message', (message) => {
-      const data = JSON.parse(message.data);
-      console.log(data);
+//     ws.addEventListener('message', (message) => {
+//       const data = JSON.parse(message.data);
+//       console.log(data);
 
-      if (data.start) {
-        document.querySelector('#ui').style.zIndex = 0;
-        document.querySelector('#ui').style.opacity = 0;
-        document.getElementById('game').style.opacity = 1;
-        document.getElementById('game').style.zIndex = 1;
+//       if (data.start) {
+//         document.querySelector('#ui').style.zIndex = 0;
+//         document.querySelector('#ui').style.opacity = 0;
+//         document.getElementById('game').style.opacity = 1;
+//         document.getElementById('game').style.zIndex = 1;
 
+//         if (startGame) {
+//           startGame(pid, plName, data.player);
+//         }
+//       }
+//     });
+//   } catch (e) {
+//     console.log(e);
+//   }
+// };
+
+// const onStartClick = async (e) => {
+//   try {
+//     ws.send(JSON.stringify({ pid, start: true }));
+//   } catch (e) {
+//     console.log(e);
+//   }
+// };
+
+// document.getElementById('startButton').onclick = onStartClick;
+
+window.addEventListener('message', (event) => {
+  if (event.data.target === 'IGQ') {
+    switch (event.data.name) {
+      case 'START': {
+        console.log('Event is start');
         if (startGame) {
-          startGame(pid, plName, data.player);
+          startGame(event.data.value.PID, event.data.value.name, true);
+          document.querySelector('#ui').style.zIndex = 0;
+          document.querySelector('#ui').style.opacity = 0;
+          document.getElementById('game').style.opacity = 1;
+          document.getElementById('game').style.zIndex = 1;
         }
       }
-    });
-  } catch (e) {
-    console.log(e);
+    }
   }
-};
-
-const onStartClick = async (e) => {
-  try {
-    ws.send(JSON.stringify({ pid, start: true }));
-  } catch (e) {
-    console.log(e);
-  }
-};
-
-document.getElementById('startButton').onclick = onStartClick;
+});

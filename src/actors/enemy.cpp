@@ -2,7 +2,7 @@
 
 Enemy::Enemy(Game *game) : Actor(game), mMovement(nullptr), mCharge(nullptr), mHp(nullptr)
 {
-    setScale(0.1);
+    setScale(0.11);
 
     SpriteComponent *sc = new SpriteComponent(this, getGame()->getRenderer(), 150);
     sc->setTexture(getGame()->getRenderer()->getTexture("src/assets/textures/Ship2.png"));
