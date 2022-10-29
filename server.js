@@ -1,6 +1,7 @@
 const express = require('express');
 const bodyParser = require('body-parser');
 const cors = require('cors');
+require('dotenv').config();
 
 const app = express();
 
@@ -35,11 +36,21 @@ app.get('*', (req, res, next) => {
 
 app.listen(3000, () => console.log('Express listening on port 3000'));
 
-var port = 3001;
+var port = 443;
 var queue = [];
 
-(WebSocketServer = require('ws').Server),
-  (wss = new WebSocketServer({ port: port }));
+const WebSocketServer = require('ws').Server;
+const HttpsServer = require('https').createServer;
+const fs = require('fs');
+
+const server = HttpsServer({
+  cert: fs.readFileSync(process.env.CERT_PATH || 'cert/cert.pem'),
+  key: fs.readFileSync(process.env.KEY_PATH || 'cert/key.pem'),
+});
+
+const wss = new WebSocketServer({ server });
+server.listen(port);
+
 console.log('Websocket listening on port: ' + port);
 
 wss.on('connection', function connection(ws) {

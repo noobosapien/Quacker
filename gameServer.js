@@ -349,7 +349,6 @@ wss.on('connection', (ws, req) => {
 
 function sendWelcome(player) {
   var WLCM = new Uint32Array([1464615757, player.id]);
-  console.log(player);
   player?.ws?.send(WLCM);
 }
 
