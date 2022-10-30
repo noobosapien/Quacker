@@ -40,17 +40,8 @@ var port = 3001;
 var queue = [];
 
 const WebSocketServer = require('ws').Server;
-// const HttpsServer = require('https').createServer;
-// const fs = require('fs');
 
-// const server = HttpsServer({
-//   cert: fs.readFileSync(process.env.CERT_PATH || 'cert/cert.pem'),
-//   key: fs.readFileSync(process.env.KEY_PATH || 'cert/key.pem'),
-// });
-
-// const wss = new WebSocketServer({ server });
 const wss = new WebSocketServer({ port });
-// server.listen(port);
 
 console.log('Websocket listening on port: ' + port);
 
