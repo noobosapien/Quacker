@@ -20,6 +20,7 @@
       crossorigin="anonymous"
     ></script>
     <link href="../shell/shell.css" rel="stylesheet" type="text/css" />
+    <script src="https://cdn.tailwindcss.com"></script>
   </head>
   <body>
     <div style="top: 0; left: 0" id="ui">
@@ -51,7 +52,63 @@
       </canvas>
 
       <div id="game-ui">
-        <div id="progress_bot">
+        <div class="flex flex-col z-20 text-white h-screen">
+          <div class="text-white h-3/5 flex flex-row justify-between">
+            <div>Player</div>
+            <div>Enemy</div>
+          </div>
+
+          <div class="h-1/5 flex flex-col items-start gap-y-6">
+            <button
+              class="w-12 h-12 rounded-full bg-slate-500 hover:bg-red-500 text-white"
+            >
+              1
+            </button>
+            <button
+              class="w-12 h-12 rounded-full bg-blue-500 hover:bg-red-500 text-white"
+            >
+              2
+            </button>
+          </div>
+
+          <div class="h-1/5 flex flex-row justify-around items-center">
+            <div>Turn</div>
+
+            <div class="flex flex-row gap-x-10">
+              <div
+                class="bg-red-500 h-10 w-10"
+                style="
+                  clip-path: polygon(
+                    40% 0%,
+                    40% 20%,
+                    100% 20%,
+                    100% 80%,
+                    40% 80%,
+                    40% 100%,
+                    0% 50%
+                  );
+                "
+              ></div>
+
+              <div
+                class="bg-red-500 h-10 w-10"
+                style="
+                  clip-path: polygon(
+                    0% 20%,
+                    60% 20%,
+                    60% 0%,
+                    100% 50%,
+                    60% 100%,
+                    60% 80%,
+                    0% 80%
+                  );
+                "
+              ></div>
+            </div>
+          </div>
+        </div>
+
+        <!-- <div id="progress_bot">
           <div id="progress_top"></div>
         </div>
 
@@ -66,7 +123,7 @@
           <div id="turn_left"></div>
           <div id="turn_right"></div>
           <div id="turner"></div>
-        </div>
+        </div> -->
       </div>
 
       <script type="text/javascript" src="../shell/shell.js"></script>
@@ -77,5 +134,3 @@
     </div>
   </body>
 </html>
-
-

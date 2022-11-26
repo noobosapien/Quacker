@@ -116,22 +116,22 @@
     top: 80vh;
     right: 40vw;
     position: absolute;
-    font-size: 4rem;
+    /* font-size: 4rem;
     color: red;
     width: 10px;
     height: 80px;
-    background: rgba(6, 244, 240, 0.684);
+    background: rgba(6, 244, 240, 0.684); */
 }
 
 #turn_right {
     top: 80vh;
     right: 10vw;
     position: absolute;
-    font-size: 4rem;
+    /* font-size: 4rem;
     color: red;
     width: 10px;
     height: 80px;
-    background: rgba(255, 0, 0, 0.684);
+    background: rgba(255, 0, 0, 0.684); */
 }
 
 #shooting_range{
