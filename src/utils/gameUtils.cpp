@@ -58,6 +58,16 @@ void Utils::callUIRPC(std::string command)
 
         break;
 
+    case UICalls::PLAYER_SELECT_GUN1:
+
+        mGame->getPlayer()->mShoot->setGun(1);
+        break;
+
+    case UICalls::PLAYER_SELECT_GUN2:
+
+        mGame->getPlayer()->mShoot->setGun(2);
+        break;
+
     default:
         break;
     }
@@ -80,6 +90,9 @@ void Utils::initializeUICommands()
 
     addUICommand("PLAYER_SHOOT_START", UICalls::PLAYER_SHOOT_START);
     addUICommand("PLAYER_SHOOT_STOP", UICalls::PLAYER_SHOOT_STOP);
+
+    addUICommand("PLAYER_SELECT_GUN1", UICalls::PLAYER_SELECT_GUN1);
+    addUICommand("PLAYER_SELECT_GUN2", UICalls::PLAYER_SELECT_GUN2);
 }
 
 void Utils::addUICommand(std::string name, UICalls method)

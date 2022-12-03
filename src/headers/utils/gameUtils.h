@@ -24,6 +24,9 @@ private:
 
         PLAYER_SHOOT_START,
         PLAYER_SHOOT_STOP,
+
+        PLAYER_SELECT_GUN1,
+        PLAYER_SELECT_GUN2,
     };
 
     std::map<std::string, UICalls> mUICommands;

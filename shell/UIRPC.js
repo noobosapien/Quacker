@@ -11,13 +11,19 @@ function UI_RPC(command, ...args) {
 
     case 'PLAYER_HP_HIT':
       if (args instanceof Array && args.length > 0) {
-        healthBar.style.width = `${args[0]}%`;
+        // healthBar.style.width = `${args[0]}%`;
       }
       break;
 
     case 'ENEMY_HP_HIT':
       if (args instanceof Array && args.length > 0) {
-        enemyHealthBar.style.width = `${args[0]}%`;
+        // enemyHealthBar.style.width = `${args[0]}`;
+      }
+      break;
+
+    case 'PLAYER_GUN_CHANGE':
+      if (args instanceof Array && args.length > 0) {
+        console.log('Player gun changed to: ', args[0]);
       }
       break;
 

@@ -13,6 +13,7 @@ public:
     void stopShoot();
 
     void shootAtDirection(glm::vec2 pos, float rotation, double startTime);
+    void setGun(unsigned int gun);
 
     void writePacket(OutputStream *out);
 
@@ -20,6 +21,7 @@ private:
     bool mStart;
     float mCharge;
     double mStartTime;
+    unsigned int mGun;
     ChargingComponent *mCharger;
 
     std::vector<Bullet *> mNewBullets;

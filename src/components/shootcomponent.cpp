@@ -3,7 +3,8 @@
 ShootComponent::ShootComponent(Actor *owner, bool interpolate, ChargingComponent *charger) : Component(owner),
                                                                                              mCharge(0.f),
                                                                                              mStart(false),
-                                                                                             mCharger(charger)
+                                                                                             mCharger(charger),
+                                                                                             mGun(1)
 {
 }
 
@@ -50,7 +51,7 @@ void ShootComponent::stopShoot()
 
 void ShootComponent::shoot()
 {
-    auto bullet = new Bullet(mOwner->getGame(), mOwner, mOwner->getRotation() - 90, mStartTime);
+    auto bullet = new Bullet(mOwner->getGame(), mOwner, Bullet::Type::BULLET, mOwner->getRotation() - 90, mStartTime);
 
     mNewBullets.push_back(bullet);
     mOwner->getGame()->setBullet(bullet, mOwner);
@@ -58,7 +59,7 @@ void ShootComponent::shoot()
 
 void ShootComponent::shootAtDirection(glm::vec2 pos, float rot, double startTime) // only called from server
 {
-    auto bullet = new Bullet(mOwner->getGame(), mOwner, pos, rot, startTime);
+    auto bullet = new Bullet(mOwner->getGame(), mOwner, Bullet::Type::BULLET, pos, rot, startTime);
     mOwner->getGame()->setBullet(bullet, mOwner);
 }
 
@@ -98,4 +99,11 @@ void ShootComponent::removeOutBullets()
             }
         }
     }
+}
+
+void ShootComponent::setGun(unsigned int gun)
+{
+    mGun = gun;
+
+    EM_ASM({UI_RPC("PLAYER_GUN_CHANGE", $0)}, mGun);
 }

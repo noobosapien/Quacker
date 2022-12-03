@@ -4,8 +4,14 @@
 class Bullet : public Actor
 {
 public:
-    Bullet(Game *game, Actor *owner, float rotation, double startTime);
-    Bullet(Game *game, Actor *owner, glm::vec2 position, float rotation, double startTime);
+    enum Type
+    {
+        BULLET,
+        LIGHTNING
+    };
+
+    Bullet(Game *game, Actor *owner, Type type, float rotation, double startTime);
+    Bullet(Game *game, Actor *owner, Type type, glm::vec2 position, float rotation, double startTime);
     ~Bullet();
 
     void updateActor(float delta) override;
@@ -24,6 +30,8 @@ private:
     Actor *mBulletOwner;
     class CollisionComponent *mCollider;
     class SpriteComponent *mSprite;
+
+    Type mType;
 
     bool mGo;
     double mStartTime;

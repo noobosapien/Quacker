@@ -2,11 +2,12 @@
 
 int Bullet::mTotalIDs = 1;
 
-Bullet::Bullet(Game *game, Actor *owner, float rotation, double startTime) : Actor(game),
-                                                                             mBulletOwner(owner),
-                                                                             mStartTime(startTime),
-                                                                             mCollider(nullptr),
-                                                                             mSprite(nullptr)
+Bullet::Bullet(Game *game, Actor *owner, Type type, float rotation, double startTime) : Actor(game),
+                                                                                        mBulletOwner(owner),
+                                                                                        mStartTime(startTime),
+                                                                                        mCollider(nullptr),
+                                                                                        mSprite(nullptr),
+                                                                                        mType(type)
 {
 
     mId = Bullet::mTotalIDs++;
@@ -25,11 +26,12 @@ Bullet::Bullet(Game *game, Actor *owner, float rotation, double startTime) : Act
     mShootTime = getGame()->getCurrentTime();
 }
 
-Bullet::Bullet(Game *game, Actor *owner, glm::vec2 position, float rotation, double startTime) : Actor(game),
-                                                                                                 mBulletOwner(owner),
-                                                                                                 mStartTime(startTime),
-                                                                                                 mCollider(nullptr),
-                                                                                                 mSprite(nullptr)
+Bullet::Bullet(Game *game, Actor *owner, Type type, glm::vec2 position, float rotation, double startTime) : Actor(game),
+                                                                                                            mBulletOwner(owner),
+                                                                                                            mStartTime(startTime),
+                                                                                                            mCollider(nullptr),
+                                                                                                            mSprite(nullptr),
+                                                                                                            mType(type)
 {
 
     mId = Bullet::mTotalIDs++;

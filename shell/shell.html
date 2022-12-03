@@ -60,11 +60,13 @@
 
           <div class="h-1/5 flex flex-col items-start gap-y-6">
             <button
-              class="w-12 h-12 rounded-full bg-slate-500 hover:bg-red-500 text-white"
+              id="gun1"
+              class="w-12 h-12 rounded-full bg-blue-800 hover:bg-red-500 text-white"
             >
               1
             </button>
             <button
+              id="gun2"
               class="w-12 h-12 rounded-full bg-blue-500 hover:bg-red-500 text-white"
             >
               2
@@ -72,10 +74,15 @@
           </div>
 
           <div class="h-1/5 flex flex-row justify-around items-center">
-            <div>Turn</div>
+            <div
+              id="shooter"
+              style="clip-path: circle(50% at 50% 50%)"
+              class="bg-slate-100 h-10 w-10"
+            ></div>
 
             <div class="flex flex-row gap-x-10">
               <div
+                id="move_left"
                 class="bg-slate-100 h-10 w-10"
                 style="
                   clip-path: polygon(
@@ -91,6 +98,7 @@
               ></div>
 
               <div
+                id="move_right"
                 class="bg-slate-100 h-10 w-10"
                 style="
                   clip-path: polygon(
@@ -122,7 +130,7 @@
           <!-- <div id="shooting_range"></div> -->
           <!-- <div id="turn_left"></div> -->
           <!-- <div id="turn_right"></div> -->
-          <div id="turner"></div>
+          <!-- <div id="turner"></div> -->
         </div>
       </div>
 
@@ -130,6 +138,7 @@
       <script type="text/javascript" src="../shell/movement.js"></script>
       <script type="text/javascript" src="../shell/shooting.js"></script>
       <script type="text/javascript" src="../shell/UIRPC.js"></script>
+      <script type="text/javascript" src="../shell/chooseGun.js"></script>
       {{{ SCRIPT }}}
     </div>
   </body>
