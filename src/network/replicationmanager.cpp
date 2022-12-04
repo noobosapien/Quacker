@@ -81,8 +81,9 @@ void ReplicationManager::addEnemyBullets(InputStream &inStream)
         inStream.read(rot);
 
         auto enemy = mGame->getEnemy();
-        enemy->getShootComponent()->shootAtDirection(glm::vec2(float(posX) / -1000000,
-                                                               enemy->getPosition().y),
+
+        // change the type shoot at direction is immediate
+        enemy->getShootComponent()->shootAtDirection(Bullet::Type::BULLET, glm::vec2(float(posX) / -1000000, enemy->getPosition().y),
                                                      (float(rot) / 1000000) - 180.f,
                                                      mGame->getCurrentTime());
     }

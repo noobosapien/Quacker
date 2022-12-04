@@ -152,6 +152,9 @@ bool Renderer::loadShaders()
     if (!loadChargingShader())
         return false;
 
+    if (!loadLightningShader())
+        return false;
+
     return true;
 }
 
@@ -213,6 +216,37 @@ bool Renderer::loadChargingShader()
     mChargingShader->setAttrib("a_texCoord", 2, 5, 3);
 
     mShaders["charging"] = mChargingShader;
+
+    return true;
+}
+
+bool Renderer::loadLightningShader()
+{
+    auto mLightningShader = new Shader();
+
+    if (!mLightningShader->load("src/shaders/lightning.vert", "src/shaders/lightning.frag"))
+    {
+        return false;
+    }
+
+    mLightningShader->setActive();
+
+    float vertices[] = {
+        -1.f, 1.f, 0.f, 0.f, 1.f,
+        1.f, 1.f, 0.f, 1.f, 1.f,
+        1.f, -1.f, 0.f, 1.f, 0.f,
+        -1.f, -1.f, 0.f, 0.f, 0.f};
+
+    unsigned int indices[] = {
+        0, 1, 2,
+        2, 3, 0};
+
+    mLightningShader->setVertexData(vertices, 4, indices, 6, 5);
+
+    mLightningShader->setAttrib("a_position", 3, 5, 0);
+    mLightningShader->setAttrib("a_texCoord", 2, 5, 3);
+
+    mShaders["lightning"] = mLightningShader;
 
     return true;
 }

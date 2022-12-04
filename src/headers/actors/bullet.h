@@ -21,6 +21,9 @@ public:
 
     inline class CollisionComponent *getCollider() { return mCollider; }
 
+    inline Type getType() { return mType; }
+    inline class LightningComponent *getLightning() { return mLightning; }
+
     // copy assignment for vector erase use
 
     Bullet &operator=(const Bullet &bullet);
@@ -31,6 +34,8 @@ private:
     class CollisionComponent *mCollider;
     class SpriteComponent *mSprite;
 
+    class LightningComponent *mLightning;
+
     Type mType;
 
     bool mGo;
@@ -39,6 +44,9 @@ private:
     int mId;
 
     static int mTotalIDs;
+
+    void pellet(float rotation, glm::vec2 position);
+    void lightning(float rotation, glm::vec2 position);
 };
 
 #endif

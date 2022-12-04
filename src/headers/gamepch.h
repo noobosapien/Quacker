@@ -31,5 +31,6 @@ class Component;
 #include "components/chargingcomponent.h"
 #include "components/starbgcomponent.h"
 #include "components/debughpcomponent.h"
+#include "components/lightningcomponent.h"
 
 #include "utils/gameUtils.h"

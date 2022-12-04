@@ -12,7 +12,7 @@ public:
     void startToShoot();
     void stopShoot();
 
-    void shootAtDirection(glm::vec2 pos, float rotation, double startTime);
+    void shootAtDirection(Bullet::Type type, glm::vec2 pos, float rotation, double startTime);
     void setGun(unsigned int gun);
 
     void writePacket(OutputStream *out);

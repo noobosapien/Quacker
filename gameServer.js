@@ -185,7 +185,9 @@ wss.on('connection', (ws, req) => {
 
               let noOfBullets = Number(out.toString('utf-8'));
               let bullets = [];
-              // console.log(noOfBullets);
+
+              if (noOfBullets > 0)
+                console.log('Number of bullets: ', noOfBullets);
 
               for (var i = 0; i < noOfBullets; i++) {
                 buf = Buffer.from(comp.buffer, bytesRead, 4);
@@ -209,6 +211,7 @@ wss.on('connection', (ws, req) => {
                 bytesRead += len3;
 
                 let shootTime = Number(out.toString('utf-8'));
+                console.log('Shoot: ', shootTime);
 
                 if (shootTime - startTime < 2950) break;
 
@@ -255,6 +258,8 @@ wss.on('connection', (ws, req) => {
                 };
 
                 bullets.push(bullet);
+
+                if (bullets.length > 0) console.log('Bullets: ', bullets);
               }
 
               players.forEach((pl, i) => {

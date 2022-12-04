@@ -51,15 +51,34 @@ void ShootComponent::stopShoot()
 
 void ShootComponent::shoot()
 {
-    auto bullet = new Bullet(mOwner->getGame(), mOwner, Bullet::Type::BULLET, mOwner->getRotation() - 90, mStartTime);
+
+    Bullet::Type type;
+
+    switch (mGun)
+    {
+    case 1:
+        type = Bullet::Type::BULLET;
+        break;
+
+    case 2:
+        type = Bullet::Type::LIGHTNING;
+        break;
+
+    default:
+        type = Bullet::Type::BULLET;
+        break;
+    }
+
+    auto bullet = new Bullet(mOwner->getGame(), mOwner, type, mOwner->getRotation() - 90, mStartTime);
 
     mNewBullets.push_back(bullet);
     mOwner->getGame()->setBullet(bullet, mOwner);
 }
 
-void ShootComponent::shootAtDirection(glm::vec2 pos, float rot, double startTime) // only called from server
+void ShootComponent::shootAtDirection(Bullet::Type type, glm::vec2 pos, float rot, double startTime) // only called from server
 {
-    auto bullet = new Bullet(mOwner->getGame(), mOwner, Bullet::Type::BULLET, pos, rot, startTime);
+    auto bullet = new Bullet(mOwner->getGame(), mOwner, type, pos, rot, startTime);
+    std::cout << "Called shoot at direction" << std::endl;
     mOwner->getGame()->setBullet(bullet, mOwner);
 }
 
@@ -84,19 +103,50 @@ void ShootComponent::removeOutBullets()
 
     for (int i = 0; i < bullets.size(); i++)
     {
-        if (bullets[i]->getPosition().x < -1.f ||
-            bullets[i]->getPosition().x > 1.f ||
-            bullets[i]->getPosition().y < -1.f ||
-            bullets[i]->getPosition().y > 1.f)
+        switch (bullets[i]->getType())
         {
-            bullets[i]->setState(Actor::EDead);
-
-            auto iter = std::find(bullets.begin(), bullets.end(), bullets[i]);
-            if (iter != bullets.end())
+        case Bullet::Type::BULLET:
+        {
+            if (bullets[i]->getPosition().x < -1.f ||
+                bullets[i]->getPosition().x > 1.f ||
+                bullets[i]->getPosition().y < -1.f ||
+                bullets[i]->getPosition().y > 1.f)
             {
-                std::iter_swap(iter, bullets.end() - 1);
-                bullets.pop_back();
+                bullets[i]->setState(Actor::EDead);
+
+                auto iter = std::find(bullets.begin(), bullets.end(), bullets[i]);
+                if (iter != bullets.end())
+                {
+                    std::iter_swap(iter, bullets.end() - 1);
+                    bullets.pop_back();
+                }
             }
+
+            break;
+        }
+
+        case Bullet::Type::LIGHTNING:
+        {
+            float time = bullets[i]->getLightning()->getTime();
+
+            if (time > 3.f)
+            {
+                bullets[i]->setState(Actor::EDead);
+
+                auto iter = std::find(bullets.begin(), bullets.end(), bullets[i]);
+                if (iter != bullets.end())
+                {
+                    std::iter_swap(iter, bullets.end() - 1);
+                    bullets.pop_back();
+                }
+            }
+            break;
+        }
+
+        default:
+        {
+            break;
+        }
         }
     }
 }
