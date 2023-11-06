@@ -10,6 +10,8 @@ Player::Player(Game *game) : Actor(game), mMovement(nullptr), mCharge(nullptr), 
 	CircleShapeComponent *csc = new CircleShapeComponent(this, static_cast<float>(getScale()));
 	CollisionComponent *cc = new CollisionComponent(this, csc);
 
+	CircleRenderComponent *crc = new CircleRenderComponent(this, getGame()->getRenderer(), 200);
+
 	glm::vec2 dir;
 
 	setPosition(glm::vec2(0.f, -0.4f));

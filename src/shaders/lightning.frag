@@ -153,7 +153,7 @@ void main()
     col=col*col;
     col=col*col;
     
-    if(col.b < 0.1){
+    if(col.b < 0.5){
         discard;
     }
     

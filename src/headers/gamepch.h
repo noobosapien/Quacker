@@ -29,8 +29,10 @@ class Component;
 #include "components/shootcomponent.h"
 #include "components/networkcomponent.h"
 #include "components/chargingcomponent.h"
+#include "components/circlerendercomponent.h"
 #include "components/starbgcomponent.h"
 #include "components/debughpcomponent.h"
 #include "components/lightningcomponent.h"
 
 #include "utils/gameUtils.h"
+#include "utils/mathUtils.h"

@@ -70,12 +70,14 @@ void MoveComponent::update(float delta)
     }
     else
     {
-        if (pos.x < 0.5 && mDirection.x > 0)
+        // if (pos.x < 0.5 && mDirection.x > 0)
+        if (pos.x < 1.0 && mDirection.x > 0)
         {
             pos += mDirection * mSpeed * delta;
             mOwner->setPosition(pos);
         }
-        else if (pos.x > -0.5 && mDirection.x < 0)
+        // else if (pos.x > -0.5 && mDirection.x < 0)
+        else if (pos.x > -1.0 && mDirection.x < 0)
         {
             pos += mDirection * mSpeed * delta;
             mOwner->setPosition(pos);

@@ -55,7 +55,7 @@ void Renderer::setWinDim(int width, int height)
     {
         Renderer::WIN_HEIGHT = height;
         Renderer::WIN_WIDTH = width;
-        Renderer::WIN_RES = glm::vec2(1.0, (float)height / width);
+        Renderer::WIN_RES = glm::vec2((float)height);
 
         SDL_SetWindowSize(window, width, height);
         glViewport(-height / 2 + width / 2, 0, height, height);
@@ -64,12 +64,16 @@ void Renderer::setWinDim(int width, int height)
     {
         Renderer::WIN_HEIGHT = height;
         Renderer::WIN_WIDTH = width;
-        Renderer::WIN_RES = glm::vec2((float)width / height, 1.0);
+        Renderer::WIN_RES = glm::vec2((float)width);
 
         SDL_SetWindowSize(window, width, height);
         // glViewport(0, -width/2 + height/2, width, width);
         glViewport(0, -width / 2 + height / 2, width, width);
     }
+
+    // Renderer::WIN_RES = glm::vec2(width, height);
+
+    // std::cout << Renderer::WIN_HEIGHT << ", " << Renderer::WIN_WIDTH << ", " << Renderer::WIN_RES.x << " : " << Renderer::WIN_RES.y << std::endl;
 }
 
 void Renderer::update()
@@ -153,6 +157,9 @@ bool Renderer::loadShaders()
         return false;
 
     if (!loadLightningShader())
+        return false;
+
+    if (!loadCircleDebugShader())
         return false;
 
     return true;
@@ -247,6 +254,36 @@ bool Renderer::loadLightningShader()
     mLightningShader->setAttrib("a_texCoord", 2, 5, 3);
 
     mShaders["lightning"] = mLightningShader;
+
+    return true;
+}
+
+bool Renderer::loadCircleDebugShader()
+{
+    auto mCircelDebugShader = new Shader();
+
+    if (!mCircelDebugShader->load("src/shaders/circledebug.vert", "src/shaders/circledebug.frag"))
+    {
+        return false;
+    }
+
+    mCircelDebugShader->setActive();
+
+    float vertices[] = {
+        -1.f, 1.f, 0.f,
+        1.f, 1.f, 0.f,
+        1.f, -1.f, 0.f,
+        -1.f, -1.f, 0.f};
+
+    unsigned int indices[] = {
+        0, 1, 2,
+        2, 3, 0};
+
+    mCircelDebugShader->setVertexData(vertices, 4, indices, 6, 5);
+
+    mCircelDebugShader->setAttrib("a_position", 3, 3, 0);
+
+    mShaders["circledebug"] = mCircelDebugShader;
 
     return true;
 }
