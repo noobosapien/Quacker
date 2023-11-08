@@ -15,8 +15,10 @@ namespace MathUtils
         // ret.y /= -(Renderer::GAME_HEIGHT / 2);
 
         ret.x += 1;
+        // ret.x += ((float)Renderer::WIN_HEIGHT / (float)Renderer::WIN_WIDTH);
         ret.y += 1;
-        ret.x /= 2;
+        // ret.x /= 2;
+        ret.x /= ((float)Renderer::WIN_HEIGHT / (float)Renderer::WIN_WIDTH) * 2;
         ret.y /= 2;
 
         return ret;
