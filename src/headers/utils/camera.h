@@ -16,6 +16,11 @@ public:
     glm::mat4 &getUIProjection() { return mUIProjection; }
     glm::mat4 &getUIViewProj() { return mUIViewProj; }
 
+    glm::vec3 getPosition()
+    {
+        return mPosition;
+    }
+
     void setPosition(glm::vec3 pos)
     {
         mPosition = pos;

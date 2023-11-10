@@ -7,18 +7,9 @@ namespace MathUtils
     {
         glm::vec2 ret(v);
 
-        // ret.x *= (Renderer::GAME_WIDTH / 2)
-
-        // ret.x -= (Renderer::GAME_WIDTH / 2);
-        // ret.y -= (Renderer::GAME_HEIGHT / 2);
-        // ret.x /= (Renderer::GAME_WIDTH / 2);
-        // ret.y /= -(Renderer::GAME_HEIGHT / 2);
-
-        ret.x += 1;
-        // ret.x += ((float)Renderer::WIN_HEIGHT / (float)Renderer::WIN_WIDTH);
+        ret.x += (float)Renderer::WIN_WIDTH / (float)Renderer::WIN_HEIGHT;
         ret.y += 1;
-        // ret.x /= 2;
-        ret.x /= ((float)Renderer::WIN_HEIGHT / (float)Renderer::WIN_WIDTH) * 2;
+        ret.x /= 2;
         ret.y /= 2;
 
         return ret;
