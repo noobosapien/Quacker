@@ -25,16 +25,21 @@ void Renderer::initialize(int width, int height)
     SDL_GL_SetAttribute(SDL_GL_DOUBLEBUFFER, 1);
     // Force OpenGL to use hardware acceleration
     SDL_GL_SetAttribute(SDL_GL_ACCELERATED_VISUAL, 1);
+    SDL_GL_SetAttribute(SDL_GL_MULTISAMPLEBUFFERS, 1);
+    SDL_GL_SetAttribute(SDL_GL_MULTISAMPLESAMPLES, 8);
 
     SDL_CreateWindowAndRenderer(width, height, 0, &window, &renderer);
 
     gl_context = SDL_GL_CreateContext(window);
     SDL_GL_MakeCurrent(window, gl_context);
+    SDL_SetHint(SDL_HINT_RENDER_SCALE_QUALITY, "1");
 
     glViewport(0, 0, width, height);
 
     glEnable(GL_BLEND);
+    glEnable(GL_DEPTH_TEST);
     glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+    // glEnable(GL_MULTISAMPLE);
 }
 
 void Renderer::deinitialize()
@@ -79,8 +84,7 @@ void Renderer::setWinDim(int width, int height)
 void Renderer::update()
 {
     glClearColor(0.196, 0.161, 0.278, 1.0);
-    glClear(GL_COLOR_BUFFER_BIT);
-    glEnable(GL_BLEND);
+    glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
     glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 
     for (auto obj : mRenders)
@@ -177,9 +181,9 @@ bool Renderer::loadSpriteShader()
     mSpriteShader->setActive();
 
     float vertices[] = {
-        -1.f, 1.f, 0.f, 0.f, 1.f,
-        1.f, 1.f, 0.f, 1.f, 1.f,
-        1.f, -1.f, 0.f, 1.f, 0.f,
+        -1.f, 1.f, 0.3f, 0.f, 1.f,
+        1.f, 1.f, 0.4f, 1.f, 1.f,
+        1.f, -1.f, 0.5f, 1.f, 0.f,
         -1.f, -1.f, 0.f, 0.f, 0.f};
 
     unsigned int indices[] = {

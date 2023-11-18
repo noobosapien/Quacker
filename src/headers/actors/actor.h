@@ -21,12 +21,12 @@ public:
     void processInput(SDL_Event &event);
     virtual void actorInput(const SDL_Event &event);
 
-    inline void setPosition(const glm::vec2 &pos)
+    inline void setPosition(const glm::vec3 &pos)
     {
         mPosition = pos;
         mRecomputeWorldTransform = true;
     }
-    inline const glm::vec2 &getPosition() { return mPosition; }
+    inline const glm::vec3 &getPosition() { return mPosition; }
     inline void setScale(float scale)
     {
         mScale = scale;
@@ -43,7 +43,7 @@ public:
     void computeWorldTransform();
     inline const glm::mat4 &getWorldTransform() { return mWorldTransform; }
 
-    glm::vec2 getForward() { return glm::vec2(glm::cos(glm::radians(mRotation)), glm::sin(glm::radians(mRotation))); }
+    glm::vec3 getForward() { return glm::vec3(glm::cos(glm::radians(mRotation)), glm::sin(glm::radians(mRotation)), 0.0); }
 
     State getState() { return mState; }
     void setState(State state) { mState = state; }
@@ -57,7 +57,7 @@ public:
 
 private:
     State mState;
-    glm::vec2 mPosition;
+    glm::vec3 mPosition;
     glm::mat4 mWorldTransform;
     float mScale;
     float mRotation;

@@ -28,7 +28,7 @@ Bullet::Bullet(Game *game, Actor *owner, Type type, float rotation, double start
     }
 }
 
-Bullet::Bullet(Game *game, Actor *owner, Type type, glm::vec2 position, float rotation, double startTime) : Actor(game),
+Bullet::Bullet(Game *game, Actor *owner, Type type, glm::vec3 position, float rotation, double startTime) : Actor(game),
                                                                                                             mBulletOwner(owner),
                                                                                                             mStartTime(startTime),
                                                                                                             mCollider(nullptr),
@@ -62,7 +62,7 @@ Bullet::~Bullet()
 ////            BULLET TYPES
 //////////////////////////////////////////////////////////////
 
-void Bullet::pellet(float rotation, glm::vec2 position)
+void Bullet::pellet(float rotation, glm::vec3 position)
 {
     setScale(0.01);
     setRotation(rotation);
@@ -78,7 +78,7 @@ void Bullet::pellet(float rotation, glm::vec2 position)
     mShootTime = getGame()->getCurrentTime();
 }
 
-void Bullet::lightning(float rotation, glm::vec2 position)
+void Bullet::lightning(float rotation, glm::vec3 position)
 {
     mLightning = new LightningComponent(this, getGame()->getRenderer());
     mShootTime = getGame()->getCurrentTime();

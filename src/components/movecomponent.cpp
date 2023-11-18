@@ -3,10 +3,10 @@
 MoveComponent::MoveComponent(Actor *owner, CollisionComponent *collider, bool interpolate, int updateOrder)
     : Component(owner, updateOrder), mCollider(collider), mInterpolate(interpolate), mPosInterpolateTime(0.f), mRotInterpolateTime(0.f)
 {
-    mDirection = glm::vec2(0.f);
+    mDirection = glm::vec3(0.f);
     mSpeed = 0.f;
 
-    mRotDirection = glm::vec2(0.f);
+    mRotDirection = glm::vec3(0.f);
     mRotSpeed = 0.f;
 
     mToPosition = mOwner->getPosition();
@@ -24,18 +24,18 @@ void MoveComponent::move(bool left, float speed)
 
     if (left)
     {
-        mDirection = glm::vec2(-1, 0);
+        mDirection = glm::vec3(-1, 0, 0);
     }
     else
     {
-        mDirection = glm::vec2(1, 0);
+        mDirection = glm::vec3(1, 0, 0);
     }
 }
 
 void MoveComponent::stop()
 {
     mSpeed = 0.f;
-    mDirection = glm::vec2(0.f);
+    mDirection = glm::vec3(0.f);
 }
 
 void MoveComponent::rotate(bool left, float speed)
@@ -44,24 +44,24 @@ void MoveComponent::rotate(bool left, float speed)
 
     if (left)
     {
-        mRotDirection = glm::vec2(-1, 0);
+        mRotDirection = glm::vec3(-1, 0, 0);
     }
     else
     {
-        mRotDirection = glm::vec2(1, 0);
+        mRotDirection = glm::vec3(1, 0, 0);
     }
 }
 
 void MoveComponent::stopRotate()
 {
     mRotSpeed = 0.f;
-    mRotDirection = glm::vec2(0.f);
+    mRotDirection = glm::vec3(0.f);
 }
 
 void MoveComponent::update(float delta)
 {
 
-    glm::vec2 pos = mOwner->getPosition();
+    glm::vec3 pos = mOwner->getPosition();
 
     if (mInterpolate)
     {
@@ -117,7 +117,7 @@ void MoveComponent::interpolatePosition(float delta)
 {
     mPosInterpolateTime += 0.1 * delta;
 
-    glm::vec2 position = mOwner->getPosition();
+    glm::vec3 position = mOwner->getPosition();
 
     if (position != mToPosition)
     {

@@ -12,10 +12,11 @@ Player::Player(Game *game) : Actor(game), mMovement(nullptr), mCharge(nullptr), 
 
 	CircleRenderComponent *crc = new CircleRenderComponent(this, getGame()->getRenderer(), 200);
 
-	glm::vec2 dir;
+	glm::vec3 dir;
 
-	setPosition(glm::vec2(0.f, -0.4f));
+	setPosition(glm::vec3(0.f, -0.4f, -3.0));
 	setRotation(180.f);
+	setRotation(-45.f);
 
 	mMovement = new MoveComponent(this, cc, false);
 	mCharge = new ChargingComponent(this, getGame()->getRenderer(), 140);

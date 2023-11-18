@@ -9,7 +9,7 @@ public:
 
     virtual void update(float delta) override;
 
-    glm::vec2 intersect(CollisionComponent *collider);
+    glm::vec3 intersect(CollisionComponent *collider);
     class CollisionShapeComponent *getShape() { return mShape; }
 
 private:

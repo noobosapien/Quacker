@@ -19,8 +19,8 @@ WebsockClient *WebsockClient::sInstance = nullptr;
 bool WebsockClient::staticInit(Game *game, int pid, char *name)
 {
     WebsockClient::sInstance = new WebsockClient(game);
-    // return WebsockClient::sInstance->init("wss://game.wondersplot.com", pid, std::string(name));
-    return WebsockClient::sInstance->init("ws://localhost:3002", pid, std::string(name));
+    return WebsockClient::sInstance->init("ws://192.168.1.16:3002", pid, std::string(name));
+    // return WebsockClient::sInstance->init("ws://localhost:3002", pid, std::string(name));
 }
 
 void WebsockClient::sendOutgoing()

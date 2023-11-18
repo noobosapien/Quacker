@@ -14,7 +14,7 @@ public:
     ~CollisionShapeComponent();
 
     virtual void update(float delta) override;
-    virtual glm::vec2 shapeIntersection(CollisionShapeComponent *shapeComponent) = 0;
+    virtual glm::vec3 shapeIntersection(CollisionShapeComponent *shapeComponent) = 0;
 
     SHAPE_TYPE getType() { return mType; }
 

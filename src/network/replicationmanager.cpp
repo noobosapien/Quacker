@@ -53,7 +53,7 @@ void ReplicationManager::updateEnemyPos(InputStream &inStream)
 
     // std::cout << "Enemy position: " << enemyPos << std::endl;
     // movement component interpolate position to the new position
-    mGame->getEnemy()->getMoveComponent()->setToPosition(glm::vec2(float(enemyPos) / -1000000, mGame->getEnemy()->getPosition().y));
+    mGame->getEnemy()->getMoveComponent()->setToPosition(glm::vec3(float(enemyPos) / -1000000, mGame->getEnemy()->getPosition().y, 0.0));
 }
 
 void ReplicationManager::updateEnemyRot(InputStream &inStream)
@@ -83,7 +83,7 @@ void ReplicationManager::addEnemyBullets(InputStream &inStream)
         auto enemy = mGame->getEnemy();
 
         // change the type shoot at direction is immediate
-        enemy->getShootComponent()->shootAtDirection(Bullet::Type::BULLET, glm::vec2(float(posX) / -1000000, enemy->getPosition().y),
+        enemy->getShootComponent()->shootAtDirection(Bullet::Type::BULLET, glm::vec3(float(posX) / -1000000, enemy->getPosition().y, 0.0),
                                                      (float(rot) / 1000000) - 180.f,
                                                      mGame->getCurrentTime());
     }

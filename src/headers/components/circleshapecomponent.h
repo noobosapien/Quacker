@@ -8,11 +8,11 @@ public:
     ~CircleShapeComponent();
 
     virtual void update(float delta) override;
-    virtual glm::vec2 shapeIntersection(CollisionShapeComponent *shapeComponent) override;
+    virtual glm::vec3 shapeIntersection(CollisionShapeComponent *shapeComponent) override;
 
     inline float getRadius() { return mRadius; }
 
-    inline glm::vec2 getPosition()
+    inline glm::vec3 getPosition()
     {
         return mOwner->getPosition();
     }

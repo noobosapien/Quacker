@@ -75,7 +75,7 @@ void ShootComponent::shoot()
     mOwner->getGame()->setBullet(bullet, mOwner);
 }
 
-void ShootComponent::shootAtDirection(Bullet::Type type, glm::vec2 pos, float rot, double startTime) // only called from server
+void ShootComponent::shootAtDirection(Bullet::Type type, glm::vec3 pos, float rot, double startTime) // only called from server
 {
     auto bullet = new Bullet(mOwner->getGame(), mOwner, type, pos, rot, startTime);
     std::cout << "Called shoot at direction" << std::endl;

@@ -11,7 +11,7 @@ public:
     };
 
     Bullet(Game *game, Actor *owner, Type type, float rotation, double startTime);
-    Bullet(Game *game, Actor *owner, Type type, glm::vec2 position, float rotation, double startTime);
+    Bullet(Game *game, Actor *owner, Type type, glm::vec3 position, float rotation, double startTime);
     ~Bullet();
 
     void updateActor(float delta) override;
@@ -45,8 +45,8 @@ private:
 
     static int mTotalIDs;
 
-    void pellet(float rotation, glm::vec2 position);
-    void lightning(float rotation, glm::vec2 position);
+    void pellet(float rotation, glm::vec3 position);
+    void lightning(float rotation, glm::vec3 position);
 };
 
 #endif

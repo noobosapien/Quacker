@@ -17,19 +17,19 @@ public:
     void rotate(bool left, float speed);
     void stopRotate();
 
-    void setToPosition(glm::vec2 position) { mToPosition = position; }
+    void setToPosition(glm::vec3 position) { mToPosition = position; }
     void setToRotation(float rotation) { mToRotation = rotation; }
 
     void writePacket(OutputStream *out);
 
 private:
     class CollisionComponent *mCollider;
-    glm::vec2 mDirection;
+    glm::vec3 mDirection;
     float mSpeed;
-    glm::vec2 mRotDirection;
+    glm::vec3 mRotDirection;
     float mRotSpeed;
 
-    glm::vec2 mToPosition;
+    glm::vec3 mToPosition;
     float mToRotation;
 
     bool mInterpolate;

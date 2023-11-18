@@ -11,7 +11,7 @@ BulletMoveComponent::BulletMoveComponent(Actor *owner, CollisionComponent *colli
     mDirection = mOwner->getForward();
     mSpeed = .1f;
 
-    mRotDirection = glm::vec2(0.f);
+    mRotDirection = glm::vec3(0.f);
     mRotSpeed = 0.f;
 
     mToPosition = mOwner->getPosition();
@@ -39,13 +39,13 @@ void BulletMoveComponent::rotate(bool left, float speed)
 void BulletMoveComponent::stopRotate()
 {
     mRotSpeed = 0.f;
-    mRotDirection = glm::vec2(0.f);
+    mRotDirection = glm::vec3(0.f);
 }
 
 void BulletMoveComponent::update(float delta)
 {
 
-    glm::vec2 pos = mOwner->getPosition();
+    glm::vec3 pos = mOwner->getPosition();
 
     if (mInterpolate)
     {
@@ -99,7 +99,7 @@ void BulletMoveComponent::interpolatePosition(float delta)
 {
     mPosInterpolateTime += 0.1 * delta;
 
-    glm::vec2 position = mOwner->getPosition();
+    glm::vec3 position = mOwner->getPosition();
 
     if (position != mToPosition)
     {

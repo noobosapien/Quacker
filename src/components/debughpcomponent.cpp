@@ -21,7 +21,7 @@ void DebugHPComponent::update(float delta)
 
     for (Bullet *bullet : eBullets)
     {
-        glm::vec2 collision = mCollider->intersect(bullet->getCollider());
+        glm::vec3 collision = mCollider->intersect(bullet->getCollider());
 
         if (collision.x > 0)
         {

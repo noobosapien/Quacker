@@ -8,9 +8,9 @@ public:
     ~RectangleShapeComponent();
 
     virtual void update(float delta) override;
-    virtual glm::vec2 shapeIntersection(CollisionShapeComponent *shapeComponent) override;
-    glm::vec2 getStart();
-    glm::vec2 getSize() { return glm::vec2(mWidth, mHeight); }
+    virtual glm::vec3 shapeIntersection(CollisionShapeComponent *shapeComponent) override;
+    glm::vec3 getStart();
+    glm::vec3 getSize() { return glm::vec3(mWidth, mHeight, 0.f); }
 
 private:
     float mWidth;

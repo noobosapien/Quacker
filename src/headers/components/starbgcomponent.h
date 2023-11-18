@@ -5,7 +5,7 @@ struct Star
 {
     float mScale;
     float mRotation;
-    glm::vec2 mPosition;
+    glm::vec3 mPosition;
 
     float mDuration;
     float mOffsetDuration;

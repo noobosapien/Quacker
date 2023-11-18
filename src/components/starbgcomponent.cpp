@@ -31,7 +31,7 @@ StarBGComponent::StarBGComponent(Actor *owner, Renderer *renderer, Texture *text
         Star *star = new Star{
             0.f,
             0.f,
-            glm::vec2(posX, posY),
+            glm::vec3(posX, posY, 0.f),
             0.f,
             offDur,
             totalDuration,
@@ -132,7 +132,7 @@ void StarBGComponent::update(float delta)
 
             int vertSpeed = 0 + (rand() % (1 - 0 + 1)) == 1 + (rand() % (1 - 0 + 1)) == 1;
 
-            star->mPosition = glm::vec2(posX, posY);
+            star->mPosition = glm::vec3(posX, posY, 0.f);
             star->mScale = 0.f;
             star->mRotation = 0.f;
             star->mOffsetDuration = offDur;

@@ -13,7 +13,7 @@ void CircleShapeComponent::update(float delta)
 {
 }
 
-glm::vec2 CircleShapeComponent::shapeIntersection(CollisionShapeComponent *shapeComponent)
+glm::vec3 CircleShapeComponent::shapeIntersection(CollisionShapeComponent *shapeComponent)
 {
     switch (shapeComponent->getType())
     {
@@ -25,7 +25,7 @@ glm::vec2 CircleShapeComponent::shapeIntersection(CollisionShapeComponent *shape
 
         if (circle == nullptr)
         {
-            return glm::vec2(0.f);
+            return glm::vec3(0.f);
         }
 
         float distX = mOwner->getPosition().x - circle->getPosition().x;
@@ -37,10 +37,10 @@ glm::vec2 CircleShapeComponent::shapeIntersection(CollisionShapeComponent *shape
 
         if (distanceSQ <= ((this->getRadius() + circle->getRadius()) * (this->getRadius() + circle->getRadius())))
         {
-            return glm::vec2(1.f);
+            return glm::vec3(1.f);
         }
 
-        return glm::vec2(0.f);
+        return glm::vec3(0.f);
         break;
     }
 
@@ -50,7 +50,7 @@ glm::vec2 CircleShapeComponent::shapeIntersection(CollisionShapeComponent *shape
         RectangleShapeComponent *rect = static_cast<RectangleShapeComponent *>(shapeComponent);
 
         if (!rect)
-            return glm::vec2(0.f);
+            return glm::vec3(0.f);
 
         float ownerStartX = mOwner->getPosition().x; // - (mOwner->getScale() / 2.f);
         float ownerStartY = mOwner->getPosition().y; // - (mOwner->getScale() / 2.f);
@@ -86,18 +86,18 @@ glm::vec2 CircleShapeComponent::shapeIntersection(CollisionShapeComponent *shape
 
             // get the unit vector and invert it
             // return glm::vec2(1.f);
-            glm::vec2 norm = glm::normalize(glm::vec2(distX, distY));
+            glm::vec3 norm = glm::normalize(glm::vec3(distX, distY, 0.f));
             // std::cout << norm.x << ", " << norm.y << std::endl;
 
             return norm;
         }
 
-        return glm::vec2(0.f);
+        return glm::vec3(0.f);
 
         break;
     }
 
     default:
-        return glm::vec2(0.f);
+        return glm::vec3(0.f);
     }
 }

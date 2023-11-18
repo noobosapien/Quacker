@@ -12,7 +12,7 @@ void CollisionComponent::update(float delta)
 {
 }
 
-glm::vec2 CollisionComponent::intersect(CollisionComponent *collider)
+glm::vec3 CollisionComponent::intersect(CollisionComponent *collider)
 {
     return mShape->shapeIntersection(collider->getShape());
 }
