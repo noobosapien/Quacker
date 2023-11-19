@@ -19,6 +19,7 @@ class Component;
 #include "actors/player.h"
 #include "actors/enemy.h"
 #include "actors/bullet.h"
+#include "actors/cube.h"
 
 #include "components/collisioncomponent.h"
 #include "components/collisionshapecomponent.h"
@@ -33,6 +34,7 @@ class Component;
 #include "components/starbgcomponent.h"
 #include "components/debughpcomponent.h"
 #include "components/lightningcomponent.h"
+#include "components/cubecomponent.h"
 
 #include "utils/gameUtils.h"
 #include "utils/mathUtils.h"

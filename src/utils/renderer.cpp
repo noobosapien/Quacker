@@ -82,7 +82,7 @@ void Renderer::update()
 {
     glClearColor(0.196, 0.161, 0.278, 1.0);
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-    glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+    // glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 
     for (auto obj : mRenders)
     {
@@ -163,6 +163,9 @@ bool Renderer::loadShaders()
     if (!loadCircleDebugShader())
         return false;
 
+    if (!loadCubeShader())
+        return false;
+
     return true;
 }
 
@@ -187,7 +190,7 @@ bool Renderer::loadSpriteShader()
         0, 1, 2,
         2, 3, 0};
 
-    mSpriteShader->setVertexData(vertices, 4, indices, 6, 5);
+    mSpriteShader->setVertexData(true, vertices, 4, indices, 6, 5);
 
     mSpriteShader->setAttrib("a_position", 3, 5, 0);
     mSpriteShader->setAttrib("a_texCoord", 2, 5, 3);
@@ -218,7 +221,7 @@ bool Renderer::loadChargingShader()
         0, 1, 2,
         2, 3, 0};
 
-    mChargingShader->setVertexData(vertices, 4, indices, 6, 5);
+    mChargingShader->setVertexData(true, vertices, 4, indices, 6, 5);
 
     mChargingShader->setAttrib("a_position", 3, 5, 0);
     mChargingShader->setAttrib("a_texCoord", 2, 5, 3);
@@ -249,7 +252,7 @@ bool Renderer::loadLightningShader()
         0, 1, 2,
         2, 3, 0};
 
-    mLightningShader->setVertexData(vertices, 4, indices, 6, 5);
+    mLightningShader->setVertexData(true, vertices, 4, indices, 6, 5);
 
     mLightningShader->setAttrib("a_position", 3, 5, 0);
     mLightningShader->setAttrib("a_texCoord", 2, 5, 3);
@@ -280,11 +283,85 @@ bool Renderer::loadCircleDebugShader()
         0, 1, 2,
         2, 3, 0};
 
-    mCircelDebugShader->setVertexData(vertices, 4, indices, 6, 5);
+    mCircelDebugShader->setVertexData(true, vertices, 4, indices, 6, 3);
 
     mCircelDebugShader->setAttrib("a_position", 3, 3, 0);
 
     mShaders["circledebug"] = mCircelDebugShader;
+
+    return true;
+}
+
+bool Renderer::loadCubeShader()
+{
+    auto mCubeShader = new Shader();
+
+    if (!mCubeShader->load("src/shaders/cube.vert", "src/shaders/cube.frag"))
+    {
+        return false;
+    }
+
+    mCubeShader->setActive();
+
+    float vertices[] = {
+        -0.5f, -0.5f, -0.5f, 0.0f, 0.0f,
+        0.5f, -0.5f, -0.5f, 1.0f, 0.0f,
+        0.5f, 0.5f, -0.5f, 1.0f, 1.0f,
+        0.5f, 0.5f, -0.5f, 1.0f, 1.0f,
+        -0.5f, 0.5f, -0.5f, 0.0f, 1.0f,
+        -0.5f, -0.5f, -0.5f, 0.0f, 0.0f,
+
+        -0.5f, -0.5f, 0.5f, 0.0f, 0.0f,
+        0.5f, -0.5f, 0.5f, 1.0f, 0.0f,
+        0.5f, 0.5f, 0.5f, 1.0f, 1.0f,
+        0.5f, 0.5f, 0.5f, 1.0f, 1.0f,
+        -0.5f, 0.5f, 0.5f, 0.0f, 1.0f,
+        -0.5f, -0.5f, 0.5f, 0.0f, 0.0f,
+
+        -0.5f, 0.5f, 0.5f, 1.0f, 0.0f,
+        -0.5f, 0.5f, -0.5f, 1.0f, 1.0f,
+        -0.5f, -0.5f, -0.5f, 0.0f, 1.0f,
+        -0.5f, -0.5f, -0.5f, 0.0f, 1.0f,
+        -0.5f, -0.5f, 0.5f, 0.0f, 0.0f,
+        -0.5f, 0.5f, 0.5f, 1.0f, 0.0f,
+
+        0.5f, 0.5f, 0.5f, 1.0f, 0.0f,
+        0.5f, 0.5f, -0.5f, 1.0f, 1.0f,
+        0.5f, -0.5f, -0.5f, 0.0f, 1.0f,
+        0.5f, -0.5f, -0.5f, 0.0f, 1.0f,
+        0.5f, -0.5f, 0.5f, 0.0f, 0.0f,
+        0.5f, 0.5f, 0.5f, 1.0f, 0.0f,
+
+        -0.5f, -0.5f, -0.5f, 0.0f, 1.0f,
+        0.5f, -0.5f, -0.5f, 1.0f, 1.0f,
+        0.5f, -0.5f, 0.5f, 1.0f, 0.0f,
+        0.5f, -0.5f, 0.5f, 1.0f, 0.0f,
+        -0.5f, -0.5f, 0.5f, 0.0f, 0.0f,
+        -0.5f, -0.5f, -0.5f, 0.0f, 1.0f,
+
+        -0.5f, 0.5f, -0.5f, 0.0f, 1.0f,
+        0.5f, 0.5f, -0.5f, 1.0f, 1.0f,
+        0.5f, 0.5f, 0.5f, 1.0f, 0.0f,
+        0.5f, 0.5f, 0.5f, 1.0f, 0.0f,
+        -0.5f, 0.5f, 0.5f, 0.0f, 0.0f,
+        -0.5f, 0.5f, -0.5f, 0.0f, 1.0f};
+
+    float vertices1[] = {
+        -1.f, 1.f, 0.f, 0.f, 1.f,
+        1.f, 1.f, 0.f, 1.f, 1.f,
+        1.f, -1.f, 0.f, 1.f, 0.f,
+        -1.f, -1.f, 0.f, 0.f, 0.f};
+
+    unsigned int indices[] = {
+        0, 1, 2,
+        2, 3, 0};
+
+    mCubeShader->setVertexData(false, vertices, 36, indices, 6, 5);
+
+    mCubeShader->setAttrib("a_position", 3, 5, 0);
+    mCubeShader->setAttrib("a_texCoord", 2, 5, 3);
+
+    mShaders["cube"] = mCubeShader;
 
     return true;
 }

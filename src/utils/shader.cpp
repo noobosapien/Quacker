@@ -170,7 +170,7 @@ bool Shader::isValidProgram()
     return true;
 }
 
-void Shader::setVertexData(float *verts, unsigned int numVerts,
+void Shader::setVertexData(bool ibo, float *verts, unsigned int numVerts,
                            const unsigned int *indices, unsigned int numIndices, unsigned int cols, GLenum usage)
 {
 
@@ -183,7 +183,10 @@ void Shader::setVertexData(float *verts, unsigned int numVerts,
     glBindBuffer(GL_ARRAY_BUFFER, VBO);
     glBufferData(GL_ARRAY_BUFFER, sizeof(float) * numVerts * cols, verts, usage);
 
-    glGenBuffers(1, &IBO);
-    glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, IBO);
-    glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(unsigned int) * numIndices, indices, usage);
+    if (ibo)
+    {
+        glGenBuffers(1, &IBO);
+        glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, IBO);
+        glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(unsigned int) * numIndices, indices, usage);
+    }
 }

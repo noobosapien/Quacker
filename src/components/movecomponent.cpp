@@ -70,15 +70,12 @@ void MoveComponent::update(float delta)
     }
     else
     {
-        // if (pos.x < 0.5 && mDirection.x > 0)
         if (pos.x < 1.0 && mDirection.x > 0)
         {
 
             pos += mDirection * mSpeed * delta;
-            std::cout << pos.x << "," << pos.y << "," << pos.z << std::endl;
             mOwner->setPosition(pos);
         }
-        // else if (pos.x > -0.5 && mDirection.x < 0)
         else if (pos.x > -1.0 && mDirection.x < 0)
         {
             pos += mDirection * mSpeed * delta;

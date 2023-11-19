@@ -39,7 +39,7 @@ void Game::startGame(int pid, char *name, bool left)
     loadData();
     loadNetwork(pid, name);
 
-        mState = EGameplay;
+    mState = EGameplay;
 }
 
 // private
@@ -113,6 +113,7 @@ void Game::loadData()
     Actor *temp = new Actor(this);
     new StarBGComponent(temp, mRenderer, mRenderer->getTexture("src/assets/textures/star_07.png"), 100);
 
+    // new Cube(this);
     mPlayer = new Player(this);
     mEnemy = new Enemy(this);
     mUtils = new Utils(this);

@@ -16,6 +16,7 @@ public:
     bool loadChargingShader();
     bool loadLightningShader();
     bool loadCircleDebugShader();
+    bool loadCubeShader();
 
     void update();
     class Shader *getShader(const std::string &name);

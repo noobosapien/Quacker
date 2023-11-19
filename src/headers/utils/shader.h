@@ -17,7 +17,7 @@ public:
     void setVec2Uniform(const char *name, const glm::vec2 &vec);
     void setVec3Uniform(const char *name, const glm::vec3 &vec);
 
-    void setVertexData(float *verts, unsigned int numVerts,
+    void setVertexData(bool ibo, float *verts, unsigned int numVerts,
                        const unsigned int *indices, unsigned int numIndices, unsigned int cols, GLenum usage = GL_STATIC_DRAW);
     void setAttrib(const char *name, unsigned int size, unsigned int stride,
                    unsigned int offset);
