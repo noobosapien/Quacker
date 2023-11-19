@@ -38,6 +38,8 @@ void Renderer::initialize(int width, int height)
 
     glEnable(GL_BLEND);
     glEnable(GL_DEPTH_TEST);
+    glDepthFunc(GL_ALWAYS);
+    glDepthMask(GL_TRUE);
     glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
     // glEnable(GL_MULTISAMPLE);
 }
@@ -72,13 +74,8 @@ void Renderer::setWinDim(int width, int height)
         Renderer::WIN_RES = glm::vec2((float)width);
 
         SDL_SetWindowSize(window, width, height);
-        // glViewport(0, -width/2 + height/2, width, width);
         glViewport(0, -width / 2 + height / 2, width, width);
     }
-
-    // Renderer::WIN_RES = glm::vec2(width, height);
-
-    // std::cout << Renderer::WIN_HEIGHT << ", " << Renderer::WIN_WIDTH << ", " << Renderer::WIN_RES.x << " : " << Renderer::WIN_RES.y << std::endl;
 }
 
 void Renderer::update()
@@ -181,9 +178,9 @@ bool Renderer::loadSpriteShader()
     mSpriteShader->setActive();
 
     float vertices[] = {
-        -1.f, 1.f, 0.3f, 0.f, 1.f,
-        1.f, 1.f, 0.4f, 1.f, 1.f,
-        1.f, -1.f, 0.5f, 1.f, 0.f,
+        -1.f, 1.f, 0.f, 0.f, 1.f,
+        1.f, 1.f, 0.f, 1.f, 1.f,
+        1.f, -1.f, 0.f, 1.f, 0.f,
         -1.f, -1.f, 0.f, 0.f, 0.f};
 
     unsigned int indices[] = {

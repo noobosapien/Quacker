@@ -192,7 +192,7 @@ Module['FS_createPath']("/src", "network", true, true);
     }
   
    }
-   loadPackage({"files": [{"filename": "/src/assets/textures/Bullet1.png", "start": 0, "end": 18652, "audio": 0}, {"filename": "/src/assets/textures/enemy.png", "start": 18652, "end": 20581, "audio": 0}, {"filename": "/src/assets/textures/player.png", "start": 20581, "end": 22450, "audio": 0}, {"filename": "/src/assets/textures/Ship1.png", "start": 22450, "end": 61789, "audio": 0}, {"filename": "/src/assets/textures/Ship2.png", "start": 61789, "end": 86973, "audio": 0}, {"filename": "/src/assets/textures/star.png", "start": 86973, "end": 113452, "audio": 0}, {"filename": "/src/assets/textures/star_07.png", "start": 113452, "end": 145821, "audio": 0}, {"filename": "/src/assets/levels/1.txt", "start": 145821, "end": 146436, "audio": 0}, {"filename": "/src/shaders/bg.frag", "start": 146436, "end": 146654, "audio": 0}, {"filename": "/src/shaders/bg.vert", "start": 146654, "end": 146974, "audio": 0}, {"filename": "/src/shaders/charging.frag", "start": 146974, "end": 148307, "audio": 0}, {"filename": "/src/shaders/charging.vert", "start": 148307, "end": 148705, "audio": 0}, {"filename": "/src/shaders/circledebug.frag", "start": 148705, "end": 149840, "audio": 0}, {"filename": "/src/shaders/circledebug.vert", "start": 149840, "end": 150292, "audio": 0}, {"filename": "/src/shaders/lightning.frag", "start": 150292, "end": 154799, "audio": 0}, {"filename": "/src/shaders/lightning.vert", "start": 154799, "end": 155151, "audio": 0}, {"filename": "/src/shaders/shield.frag", "start": 155151, "end": 155151, "audio": 0}, {"filename": "/src/shaders/shield.vert", "start": 155151, "end": 157307, "audio": 0}, {"filename": "/src/shaders/sprite.frag", "start": 157307, "end": 157558, "audio": 0}, {"filename": "/src/shaders/sprite.vert", "start": 157558, "end": 157947, "audio": 0}, {"filename": "/src/network/inoutstreams.cpp", "start": 157947, "end": 163728, "audio": 0}, {"filename": "/src/network/replicationmanager.cpp", "start": 163728, "end": 167484, "audio": 0}, {"filename": "/src/network/websockclient.cpp", "start": 167484, "end": 172882, "audio": 0}], "remote_package_size": 172882, "package_uuid": "120f2515-7a4a-47c7-9f39-acc00b645f6d"});
+   loadPackage({"files": [{"filename": "/src/assets/textures/Bullet1.png", "start": 0, "end": 18652, "audio": 0}, {"filename": "/src/assets/textures/enemy.png", "start": 18652, "end": 20581, "audio": 0}, {"filename": "/src/assets/textures/player.png", "start": 20581, "end": 22450, "audio": 0}, {"filename": "/src/assets/textures/Ship1.png", "start": 22450, "end": 61789, "audio": 0}, {"filename": "/src/assets/textures/Ship2.png", "start": 61789, "end": 86973, "audio": 0}, {"filename": "/src/assets/textures/star.png", "start": 86973, "end": 113452, "audio": 0}, {"filename": "/src/assets/textures/star_07.png", "start": 113452, "end": 145821, "audio": 0}, {"filename": "/src/assets/levels/1.txt", "start": 145821, "end": 146436, "audio": 0}, {"filename": "/src/shaders/bg.frag", "start": 146436, "end": 146654, "audio": 0}, {"filename": "/src/shaders/bg.vert", "start": 146654, "end": 146974, "audio": 0}, {"filename": "/src/shaders/charging.frag", "start": 146974, "end": 148307, "audio": 0}, {"filename": "/src/shaders/charging.vert", "start": 148307, "end": 148705, "audio": 0}, {"filename": "/src/shaders/circledebug.frag", "start": 148705, "end": 149840, "audio": 0}, {"filename": "/src/shaders/circledebug.vert", "start": 149840, "end": 150292, "audio": 0}, {"filename": "/src/shaders/lightning.frag", "start": 150292, "end": 154799, "audio": 0}, {"filename": "/src/shaders/lightning.vert", "start": 154799, "end": 155151, "audio": 0}, {"filename": "/src/shaders/shield.frag", "start": 155151, "end": 155151, "audio": 0}, {"filename": "/src/shaders/shield.vert", "start": 155151, "end": 157307, "audio": 0}, {"filename": "/src/shaders/sprite.frag", "start": 157307, "end": 157558, "audio": 0}, {"filename": "/src/shaders/sprite.vert", "start": 157558, "end": 157850, "audio": 0}, {"filename": "/src/network/inoutstreams.cpp", "start": 157850, "end": 163631, "audio": 0}, {"filename": "/src/network/replicationmanager.cpp", "start": 163631, "end": 167388, "audio": 0}, {"filename": "/src/network/websockclient.cpp", "start": 167388, "end": 172786, "audio": 0}], "remote_package_size": 172786, "package_uuid": "462cbe6f-e1f9-40b2-86c4-037ee2a3af78"});
   
   })();
   
@@ -10476,6 +10476,12 @@ var ASM_CONSTS = {
       return id;
     }
 
+  function _glDepthFunc(x0) { GLctx['depthFunc'](x0) }
+
+  function _glDepthMask(flag) {
+      GLctx.depthMask(!!flag);
+    }
+
 
   function _glEnable(x0) { GLctx['enable'](x0) }
 
@@ -11591,6 +11597,8 @@ var asmLibraryArg = {
   "glCompileShader": _glCompileShader,
   "glCreateProgram": _glCreateProgram,
   "glCreateShader": _glCreateShader,
+  "glDepthFunc": _glDepthFunc,
+  "glDepthMask": _glDepthMask,
   "glDrawElements": _glDrawElements,
   "glEnable": _glEnable,
   "glEnableVertexAttribArray": _glEnableVertexAttribArray,

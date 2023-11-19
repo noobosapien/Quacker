@@ -4,8 +4,8 @@ Camera::Camera(float left, float right, float bot, float top) : mPosition(0.f), 
                                                                 mLeft(left), mRight(right), mTop(top), mBot(bot)
 {
     // mProjection = glm::ortho(mLeft, mRight, mBot, mTop, -1.f, 10.f);
-    mProjection = glm::perspective(glm::radians(45.0f), 1.0f, 0.0f, 100.0f);
-    mPosition = glm::vec3(0, 0, 2);
+    mProjection = glm::perspective(glm::radians(90.0f), 1.0f, 0.1f, 100.0f);
+    mPosition = glm::vec3(0, 0, 1);
     mUIProjection = mProjection;
     mView = glm::mat4(1.f);
 
@@ -24,7 +24,8 @@ void Camera::recomputeViewProj()
     mView = glm::lookAt(mPosition, mPosition + glm::vec3(0.0f, 0.0f, -1.0f), glm::vec3(0.0f, 1.0f, 0.0f));
 
     mViewProj = mProjection * mView;
-    mUIViewProj = mUIProjection; //* mView;
+    // mViewProj = mView;
+    mUIViewProj = mUIProjection;
 }
 
 void Camera::addViewportVertices(float left, float right, float bot, float top)
@@ -35,7 +36,7 @@ void Camera::addViewportVertices(float left, float right, float bot, float top)
     mBot += bot;
 
     // mProjection = glm::ortho(mLeft, mRight, mBot, mTop, -1.f, 10.f);
-    mProjection = glm::perspective(glm::radians(15.0f), 1.f, 0.0f, 100.0f);
+    mProjection = glm::perspective(glm::radians(90.0f), 1.f, 0.1f, 100.0f);
 
     recomputeViewProj();
 }

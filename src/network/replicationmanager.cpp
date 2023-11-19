@@ -53,7 +53,7 @@ void ReplicationManager::updateEnemyPos(InputStream &inStream)
 
     // std::cout << "Enemy position: " << enemyPos << std::endl;
     // movement component interpolate position to the new position
-    mGame->getEnemy()->getMoveComponent()->setToPosition(glm::vec3(float(enemyPos) / -1000000, mGame->getEnemy()->getPosition().y, 0.0));
+    mGame->getEnemy()->getMoveComponent()->setToPosition(glm::vec3(float(enemyPos) / -1000000, mGame->getEnemy()->getPosition().y, 10.0));
 }
 
 void ReplicationManager::updateEnemyRot(InputStream &inStream)

@@ -69,8 +69,7 @@ void Actor::computeWorldTransform()
         glm::mat4 trans = glm::mat4(1.f);
 
         trans = glm::translate(trans, glm::vec3(mPosition.x, mPosition.y, 0.f));
-        // trans = glm::rotate(trans, glm::radians(mRotation), glm::vec3(0.f, 0.f, 1.f));
-        trans = glm::rotate(trans, glm::radians(mRotation), glm::vec3(1.f, 0.f, 0.f));
+        trans = glm::rotate(trans, glm::radians(mRotation), glm::vec3(0.f, 0.f, 1.f));
         trans = glm::scale(trans, glm::vec3(mScale, mScale, mScale));
 
         mWorldTransform = trans;

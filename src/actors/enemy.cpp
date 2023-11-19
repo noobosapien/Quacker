@@ -12,7 +12,7 @@ Enemy::Enemy(Game *game) : Actor(game), mMovement(nullptr), mCharge(nullptr), mH
 
     glm::vec3 dir;
 
-    setPosition(glm::vec3(0.f, 0.4f, -1.f));
+    setPosition(glm::vec3(0.f, 0.4f, 0.f));
 
     mMovement = new MoveComponent(this, cc, true);
     mCharge = new ChargingComponent(this, getGame()->getRenderer(), 140);
