@@ -1,6 +1,6 @@
 #include "../headers/gamepch.h"
 
-Shader::Shader() : mVertexShader(0), mFragShader(0), mShaderProgram(0), VAO(0), VBO(0)
+Shader::Shader() : mVertexShader(0), mFragShader(0), mShaderProgram(0), VAO(0), VBO(0), IBO(0)
 {
 }
 
@@ -38,6 +38,12 @@ unsigned int Shader::setActive()
 {
     glUseProgram(mShaderProgram);
     glBindVertexArray(VAO);
+
+    if (IBO)
+    {
+        glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, IBO);
+    }
+
     return mShaderProgram;
 }
 

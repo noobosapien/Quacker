@@ -4,7 +4,7 @@ int Renderer::WIN_WIDTH = 800;
 int Renderer::WIN_HEIGHT = 800;
 glm::vec2 Renderer::WIN_RES = glm::vec2(1.0);
 
-Renderer::Renderer() : mCamera(nullptr)
+Renderer::Renderer() : mCamera(nullptr), mFBO(nullptr)
 {
 }
 
@@ -41,7 +41,8 @@ void Renderer::initialize(int width, int height)
     glDepthFunc(GL_ALWAYS);
     glDepthMask(GL_TRUE);
     glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
-    // glEnable(GL_MULTISAMPLE);
+
+    mFBO = new Framebuffer(this);
 }
 
 void Renderer::deinitialize()
@@ -76,18 +77,32 @@ void Renderer::setWinDim(int width, int height)
         SDL_SetWindowSize(window, width, height);
         glViewport(0, -width / 2 + height / 2, width, width);
     }
+
+    if (mFBO)
+        mFBO->resizeTexture();
 }
 
 void Renderer::update()
 {
+    if (mFBO)
+    {
+        mFBO->bind();
+        glEnable(GL_DEPTH_TEST);
+    }
+
     glClearColor(0.196, 0.161, 0.278, 1.0);
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-    // glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 
     for (auto obj : mRenders)
     {
         obj->draw();
         glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, nullptr);
+    }
+
+    if (mFBO)
+    {
+        mFBO->unbind();
+        mFBO->draw();
     }
 
     SDL_GL_SwapWindow(window);
@@ -163,7 +178,7 @@ bool Renderer::loadShaders()
     if (!loadCircleDebugShader())
         return false;
 
-    if (!loadCubeShader())
+    if (!loadFramebufferShader())
         return false;
 
     return true;
@@ -292,61 +307,18 @@ bool Renderer::loadCircleDebugShader()
     return true;
 }
 
-bool Renderer::loadCubeShader()
+bool Renderer::loadFramebufferShader()
 {
-    auto mCubeShader = new Shader();
+    auto mFramebufferShader = new Shader();
 
-    if (!mCubeShader->load("src/shaders/cube.vert", "src/shaders/cube.frag"))
+    if (!mFramebufferShader->load("src/shaders/framebuffer.vert", "src/shaders/framebuffer.frag"))
     {
         return false;
     }
 
-    mCubeShader->setActive();
+    mFramebufferShader->setActive();
 
     float vertices[] = {
-        -0.5f, -0.5f, -0.5f, 0.0f, 0.0f,
-        0.5f, -0.5f, -0.5f, 1.0f, 0.0f,
-        0.5f, 0.5f, -0.5f, 1.0f, 1.0f,
-        0.5f, 0.5f, -0.5f, 1.0f, 1.0f,
-        -0.5f, 0.5f, -0.5f, 0.0f, 1.0f,
-        -0.5f, -0.5f, -0.5f, 0.0f, 0.0f,
-
-        -0.5f, -0.5f, 0.5f, 0.0f, 0.0f,
-        0.5f, -0.5f, 0.5f, 1.0f, 0.0f,
-        0.5f, 0.5f, 0.5f, 1.0f, 1.0f,
-        0.5f, 0.5f, 0.5f, 1.0f, 1.0f,
-        -0.5f, 0.5f, 0.5f, 0.0f, 1.0f,
-        -0.5f, -0.5f, 0.5f, 0.0f, 0.0f,
-
-        -0.5f, 0.5f, 0.5f, 1.0f, 0.0f,
-        -0.5f, 0.5f, -0.5f, 1.0f, 1.0f,
-        -0.5f, -0.5f, -0.5f, 0.0f, 1.0f,
-        -0.5f, -0.5f, -0.5f, 0.0f, 1.0f,
-        -0.5f, -0.5f, 0.5f, 0.0f, 0.0f,
-        -0.5f, 0.5f, 0.5f, 1.0f, 0.0f,
-
-        0.5f, 0.5f, 0.5f, 1.0f, 0.0f,
-        0.5f, 0.5f, -0.5f, 1.0f, 1.0f,
-        0.5f, -0.5f, -0.5f, 0.0f, 1.0f,
-        0.5f, -0.5f, -0.5f, 0.0f, 1.0f,
-        0.5f, -0.5f, 0.5f, 0.0f, 0.0f,
-        0.5f, 0.5f, 0.5f, 1.0f, 0.0f,
-
-        -0.5f, -0.5f, -0.5f, 0.0f, 1.0f,
-        0.5f, -0.5f, -0.5f, 1.0f, 1.0f,
-        0.5f, -0.5f, 0.5f, 1.0f, 0.0f,
-        0.5f, -0.5f, 0.5f, 1.0f, 0.0f,
-        -0.5f, -0.5f, 0.5f, 0.0f, 0.0f,
-        -0.5f, -0.5f, -0.5f, 0.0f, 1.0f,
-
-        -0.5f, 0.5f, -0.5f, 0.0f, 1.0f,
-        0.5f, 0.5f, -0.5f, 1.0f, 1.0f,
-        0.5f, 0.5f, 0.5f, 1.0f, 0.0f,
-        0.5f, 0.5f, 0.5f, 1.0f, 0.0f,
-        -0.5f, 0.5f, 0.5f, 0.0f, 0.0f,
-        -0.5f, 0.5f, -0.5f, 0.0f, 1.0f};
-
-    float vertices1[] = {
         -1.f, 1.f, 0.f, 0.f, 1.f,
         1.f, 1.f, 0.f, 1.f, 1.f,
         1.f, -1.f, 0.f, 1.f, 0.f,
@@ -356,12 +328,15 @@ bool Renderer::loadCubeShader()
         0, 1, 2,
         2, 3, 0};
 
-    mCubeShader->setVertexData(false, vertices, 36, indices, 6, 5);
+    mFramebufferShader->setVertexData(true, vertices, 4, indices, 6, 5);
 
-    mCubeShader->setAttrib("a_position", 3, 5, 0);
-    mCubeShader->setAttrib("a_texCoord", 2, 5, 3);
+    mFramebufferShader->setAttrib("a_position", 2, 5, 0);
+    mFramebufferShader->setAttrib("a_texCoord", 2, 5, 3);
 
-    mShaders["cube"] = mCubeShader;
+    mShaders["framebuffer"] = mFramebufferShader;
+
+    if (mFBO)
+        mFBO->attachShader();
 
     return true;
 }

@@ -14,6 +14,7 @@ class Component;
 #include "utils/texture.h"
 #include "game.h"
 #include "utils/renderer.h"
+#include "utils/framebuffer.h"
 
 // game specific
 #include "actors/player.h"

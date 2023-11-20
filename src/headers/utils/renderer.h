@@ -16,7 +16,7 @@ public:
     bool loadChargingShader();
     bool loadLightningShader();
     bool loadCircleDebugShader();
-    bool loadCubeShader();
+    bool loadFramebufferShader();
 
     void update();
     class Shader *getShader(const std::string &name);
@@ -45,6 +45,7 @@ private:
     SDL_GLContext gl_context;
 
     class Camera *mCamera;
+    class Framebuffer *mFBO;
 };
 
 #endif
