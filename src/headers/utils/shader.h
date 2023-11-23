@@ -10,6 +10,8 @@ public:
     bool load(const std::string &vertName, const std::string &fragName);
     void unLoad();
 
+    bool recompile();
+
     unsigned int setActive();
 
     void setMatrixUniform(const char *name, const glm::mat4 &matrix);
@@ -28,6 +30,9 @@ private:
     bool compileShader(std::string filename, GLenum shaderType, GLuint &outShader);
     bool isCompiled(GLuint shader);
     bool isValidProgram();
+
+    std::string mVertName;
+    std::string mFragName;
 
     GLuint mVertexShader;
     GLuint mFragShader;

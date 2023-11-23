@@ -18,7 +18,7 @@ const options = [
   `-s MAX_WEBGL_VERSION=2`,
   `--preload-file src/assets/textures`,
   `--preload-file src/assets/levels`,
-  `--preload-file src/shaders`,
+  `--embed-file src/shaders`,
   '--preload-file src/network',
   '-s LLD_REPORT_UNDEFINED',
   '-s ALLOW_MEMORY_GROWTH=1',

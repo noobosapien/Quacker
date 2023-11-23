@@ -15,6 +15,28 @@ bool Shader::load(const std::string &vertName, const std::string &fragName)
         return false;
     }
 
+    mVertName = vertName;
+    mFragName = fragName;
+
+    mShaderProgram = glCreateProgram();
+
+    glAttachShader(mShaderProgram, mVertexShader);
+    glAttachShader(mShaderProgram, mFragShader);
+    glLinkProgram(mShaderProgram);
+
+    if (!isValidProgram())
+        return false;
+
+    return true;
+}
+
+bool Shader::recompile()
+{
+    if (!compileShader(mVertName, GL_VERTEX_SHADER, mVertexShader) || !compileShader(mFragName, GL_FRAGMENT_SHADER, mFragShader))
+    {
+        return false;
+    }
+
     mShaderProgram = glCreateProgram();
 
     glAttachShader(mShaderProgram, mVertexShader);

@@ -33,7 +33,8 @@ class Component;
 #include "components/chargingcomponent.h"
 #include "components/circlerendercomponent.h"
 #include "components/starbgcomponent.h"
-#include "components/debughpcomponent.h"
+#include "components/hpcomponent.h"
+#include "components/healthviewcomponent.h"
 #include "components/lightningcomponent.h"
 #include "components/cubecomponent.h"
 

@@ -17,7 +17,9 @@ Enemy::Enemy(Game *game) : Actor(game), mMovement(nullptr), mCharge(nullptr), mH
     mMovement = new MoveComponent(this, cc, true);
     mCharge = new ChargingComponent(this, getGame()->getRenderer(), 140);
     mShoot = new ShootComponent(this, true, mCharge);
-    mHp = new DebugHPComponent(this, cc, true);
+    mHp = new HPComponent(this, cc, true);
+
+    new HealthViewComponent(this, getGame()->getRenderer(), mHp, false);
     // new AIComponent(this, mc, left, rot);
 }
 

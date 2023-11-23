@@ -1,11 +1,11 @@
-#ifndef DEBUG_HP_COMP_H
-#define DEBUG_HP_COMP_H
+#ifndef HP_COMP_H
+#define HP_COMP_H
 
-class DebugHPComponent : public Component
+class HPComponent : public Component
 {
 public:
-    DebugHPComponent(Actor *owner, class CollisionComponent *collider, bool isEnemy);
-    ~DebugHPComponent();
+    HPComponent(Actor *owner, class CollisionComponent *collider, bool isEnemy);
+    ~HPComponent();
 
     void update(float delta) override;
 

@@ -1,18 +1,18 @@
 #include "../headers/gamepch.h"
 
-DebugHPComponent::DebugHPComponent(Actor *owner, CollisionComponent *collider, bool isEnemy) : Component(owner),
-                                                                                               mCollider(collider),
-                                                                                               mHealth(100),
-                                                                                               mEnemyHealth(100),
-                                                                                               mIsEnemy(isEnemy)
+HPComponent::HPComponent(Actor *owner, CollisionComponent *collider, bool isEnemy) : Component(owner),
+                                                                                     mCollider(collider),
+                                                                                     mHealth(100),
+                                                                                     mEnemyHealth(100),
+                                                                                     mIsEnemy(isEnemy)
 {
 }
 
-DebugHPComponent::~DebugHPComponent()
+HPComponent::~HPComponent()
 {
 }
 
-void DebugHPComponent::update(float delta)
+void HPComponent::update(float delta)
 {
     if (mIsEnemy)
         return;
@@ -42,7 +42,7 @@ void DebugHPComponent::update(float delta)
     }
 }
 
-void DebugHPComponent::writePacket(OutputStream *out)
+void HPComponent::writePacket(OutputStream *out)
 {
 
     out->write(std::string("4"));

@@ -48,13 +48,28 @@ void Game::processInput()
 {
     SDL_Event event;
 
-    if (SDL_PollEvent(&event))
+    while (SDL_PollEvent(&event))
     {
+
         switch (event.type)
         {
+        case SDL_KEYDOWN:
+            switch (event.key.keysym.sym)
+            {
+            case SDLK_LEFT:
+                if (mRenderer->getShader("health")->recompile())
+                {
+                    std::cout << "Successfuly recompiled shader." << std::endl;
+                }
+                else
+                {
+                    std::cout << "Unable to recompile shader." << std::endl;
+                }
+                continue;
 
-        default:
-            break;
+            default:
+                continue;
+            }
         }
     }
 }

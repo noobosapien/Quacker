@@ -181,6 +181,9 @@ bool Renderer::loadShaders()
     if (!loadFramebufferShader())
         return false;
 
+    if (!loadHPViewShader())
+        return false;
+
     return true;
 }
 
@@ -337,6 +340,36 @@ bool Renderer::loadFramebufferShader()
 
     if (mFBO)
         mFBO->attachShader();
+
+    return true;
+}
+
+bool Renderer::loadHPViewShader()
+{
+    auto mHPViewShader = new Shader();
+
+    if (!mHPViewShader->load("src/shaders/health.vert", "src/shaders/health.frag"))
+    {
+        return false;
+    }
+
+    mHPViewShader->setActive();
+
+    float vertices[] = {
+        -1.f, 1.f, 0.f,
+        1.f, 1.f, 0.f,
+        1.f, -1.f, 0.f,
+        -1.f, -1.f, 0.f};
+
+    unsigned int indices[] = {
+        0, 1, 2,
+        2, 3, 0};
+
+    mHPViewShader->setVertexData(true, vertices, 4, indices, 6, 3);
+
+    mHPViewShader->setAttrib("a_position", 3, 3, 0);
+
+    mShaders["health"] = mHPViewShader;
 
     return true;
 }

@@ -20,7 +20,9 @@ Player::Player(Game *game) : Actor(game), mMovement(nullptr), mCharge(nullptr), 
 	mMovement = new MoveComponent(this, cc, false);
 	mCharge = new ChargingComponent(this, getGame()->getRenderer(), 140);
 	mShoot = new ShootComponent(this, false, mCharge);
-	mHp = new DebugHPComponent(this, cc, false);
+	mHp = new HPComponent(this, cc, false);
+
+	new HealthViewComponent(this, getGame()->getRenderer(), mHp, false);
 
 	new NetworkComponent(this);
 }

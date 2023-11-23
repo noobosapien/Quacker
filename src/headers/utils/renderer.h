@@ -17,6 +17,7 @@ public:
     bool loadLightningShader();
     bool loadCircleDebugShader();
     bool loadFramebufferShader();
+    bool loadHPViewShader();
 
     void update();
     class Shader *getShader(const std::string &name);
